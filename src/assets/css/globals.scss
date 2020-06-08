@@ -1,0 +1,64 @@
+$web-primary: #0f7173;
+$web-bg: #faf1ed;
+$web-hover: #718075;
+
+.bg-web-primary {
+  background-color: $web-primary;
+}
+
+.bg-web-bg {
+  background-color: $web-bg;
+}
+
+.web-hover:hover {
+  background-color: $web-hover;
+  border-radius: 5%;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  -o-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.content {
+  min-height: 100%;
+}
+
+.content-inside {
+  padding-bottom: 50px;
+}
+.footer {
+  height: 50px;
+  margin-top: -50px;
+}
+
+.show-pointer {
+  cursor: pointer;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+.fs-16 {
+  font-size: 16px;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.fw-200 {
+  font-weight: 200;
+}
+.fw-400 {
+  font-weight: 400;
+}
+.fw-600 {
+  font-weight: 600;
+}
+.fw-800 {
+  font-weight: 800;
+}

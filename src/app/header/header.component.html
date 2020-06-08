@@ -1,0 +1,63 @@
+<div
+  class="row w-100 ml-0 px-2 bg-web-primary align-items-center justify-content-between"
+  style="height: 64px;"
+>
+  <div class="col-auto">
+    <div class="row">
+      <div class="col-auto web-hover show-pointer p-3" routerLink="">
+        <span class="text-white font-weight-normal">Home</span>
+      </div>
+      <div class="col-auto web-hover show-pointer p-3">
+        <span class="text-white font-weight-normal">Popular</span>
+      </div>
+      <div class="col-auto web-hover show-pointer p-3">
+        <span class="text-white font-weight-normal">New</span>
+      </div>
+      <div class="col-auto web-hover show-pointer p-3">
+        <span class="text-white font-weight-normal">About us</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="row justify-content-end align-items-center">
+      <div class="col-auto" *ngIf="userLoggedIn">
+        <div
+          class="border rounded-circle text-center"
+          style="
+            height: 36px;
+            width: 36px;
+            line-height: 36px;
+            border-width: 1ch;
+          "
+          [style.background]="colorCode"
+        >
+          <span class="text-white">
+            {{ firstName.slice(0, 1).toUpperCase() }}
+            {{ lastName.slice(0, 1).toUpperCase() }}
+          </span>
+        </div>
+      </div>
+      <div class="col-auto pl-0 fs-16 text-white">
+        <span>{{ firstName }} {{ lastName }}</span>
+      </div>
+      <div class="col-auto pl-0">
+        <div style="width: 1px; height: 40px; background-color: black;"></div>
+      </div>
+      <div
+        *ngIf="!userLoggedIn"
+        class="col-auto web-hover show-pointer p-3"
+        routerLink="login"
+      >
+        <span class="text-white font-weight-normal">Log In</span>
+      </div>
+      <div
+        *ngIf="userLoggedIn"
+        class="col-auto web-hover show-pointer p-3"
+        routerLink="login"
+        (click)="eraseTokenData()"
+      >
+        <span class="text-white font-weight-normal">Log Out</span>
+      </div>
+    </div>
+  </div>
+</div>
