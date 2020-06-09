@@ -1,0 +1,41 @@
+<div class="col">
+  <div class="row justify-content-center">
+    <div class="col-10 m-5 card border-rounded p-3" style="min-width: 360px;">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-auto"><span class="fs-16">Browse Forums:</span></div>
+        <div
+          tabindex="6"
+          (click)="onShowCreateForum()"
+          class="col-auto web-hover-light show-pointer py-1 px-2 mr-2"
+          matTooltip="Create a new forum!"
+          matTooltipClass="fs-14"
+        >
+          <i class="fa fa-plus text-web-primary"></i>
+        </div>
+      </div>
+      <hr />
+      <app-create-forum
+        *ngIf="showCreateForum"
+        (forumCreated)="onForumCreated($event)"
+      ></app-create-forum>
+      <div
+        [routerLink]="['../forum', forum.id]"
+        class="row w-100 ml-0 web-hover-light show-pointer"
+        *ngFor="let forum of forums"
+      >
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <span>{{ forum.forumName }}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <span>{{ forum.description }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

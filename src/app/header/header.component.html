@@ -4,16 +4,27 @@
 >
   <div class="col-auto">
     <div class="row">
-      <div class="col-auto web-hover show-pointer p-3" routerLink="">
+      <div
+        class="col-auto web-hover-dark show-pointer p-3"
+        routerLink=""
+        tabindex="1"
+      >
         <span class="text-white font-weight-normal">Home</span>
       </div>
-      <div class="col-auto web-hover show-pointer p-3">
+      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="2">
         <span class="text-white font-weight-normal">Popular</span>
       </div>
-      <div class="col-auto web-hover show-pointer p-3">
+      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="3">
         <span class="text-white font-weight-normal">New</span>
       </div>
-      <div class="col-auto web-hover show-pointer p-3">
+      <div
+        class="col-auto web-hover-dark show-pointer p-3"
+        routerLink="forums"
+        tabindex="4"
+      >
+        <span class="text-white font-weight-normal">Forums</span>
+      </div>
+      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="4">
         <span class="text-white font-weight-normal">About us</span>
       </div>
     </div>
@@ -44,15 +55,17 @@
         <div style="width: 1px; height: 40px; background-color: black;"></div>
       </div>
       <div
+        tabindex="5"
         *ngIf="!userLoggedIn"
-        class="col-auto web-hover show-pointer p-3"
+        class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"
       >
         <span class="text-white font-weight-normal">Log In</span>
       </div>
       <div
+        tabindex="5"
         *ngIf="userLoggedIn"
-        class="col-auto web-hover show-pointer p-3"
+        class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"
         (click)="eraseTokenData()"
       >

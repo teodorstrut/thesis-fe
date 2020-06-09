@@ -1,7 +1,7 @@
 $web-primary: #0f7173;
 $web-bg: #faf1ed;
-$web-hover: #718075;
-
+$web-hover-dark: #718075;
+$web-hover-light: #ececec;
 .bg-web-primary {
   background-color: $web-primary;
 }
@@ -10,8 +10,17 @@ $web-hover: #718075;
   background-color: $web-bg;
 }
 
-.web-hover:hover {
-  background-color: $web-hover;
+.web-hover-dark:hover {
+  background-color: $web-hover-dark;
+  border-radius: 5%;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  -o-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.web-hover-light:hover {
+  background-color: $web-hover-light;
   border-radius: 5%;
   -webkit-transition: background-color 0.2s ease-in-out;
   -moz-transition: background-color 0.2s ease-in-out;
@@ -61,4 +70,8 @@ $web-hover: #718075;
 }
 .fw-800 {
   font-weight: 800;
+}
+
+.text-web-primary {
+  color: $web-primary;
 }

@@ -1,0 +1,46 @@
+<div class="col">
+  <div class="row justify-content-center">
+    <div
+      *ngIf="forum"
+      class="col-10 m-5 card border-rounded p-3"
+      style="min-width: 360px;"
+    >
+      <div class="row justify-content-between align-items-center">
+        <div class="col-auto">
+          <span class="fs-16">{{ forum.forumName }}</span>
+        </div>
+      </div>
+      <hr />
+      <div class="row justify-content-between align-items-center">
+        <div class="col-auto">
+          <span class="fs-16">What this forum is about:</span>
+          <br />
+          <span class="fs-14">{{ forum.description }}</span>
+        </div>
+      </div>
+      <hr />
+      <div class="row justify-content-between align-items-center pb-3">
+        <div class="col-auto">
+          <span class="fs-16">Threads:</span>
+        </div>
+      </div>
+      <div
+        class="row w-100 ml-0 web-hover-light show-pointer"
+        *ngFor="let comment of comments"
+      >
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <span>{{ forum.forumName }}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <span>{{ forum.description }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

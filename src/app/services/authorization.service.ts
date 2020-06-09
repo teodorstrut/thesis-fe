@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginModel } from '../models/login.model';
 import { Observable } from 'rxjs';
 import { RegisterModel } from '../models/register.model';
-
+import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +17,10 @@ export class AuthorizationService {
 
   public setToken(token: string) {
     sessionStorage.setItem('token', token);
+  }
+
+  public getCurrentUserId() {
+    return jwt_decode(sessionStorage.getItem('token')).userId;
   }
 
   public login(loginModel: LoginModel): Observable<any> {

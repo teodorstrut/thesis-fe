@@ -15,8 +15,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthorizationService } from './services/authorization.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedService } from './services/shared.service';
+import { ForumsComponent } from './forums/forums.component';
+import { ForumsService } from './services/forums.service';
+import { TokenInterceptor } from './services/interceptors/token-interceptior';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CreateForumComponent } from './forums/create-forum/create-forum.component';
+import { ForumDetailsComponent } from './forums/forum-details/forum-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +31,9 @@ import { SharedService } from './services/shared.service';
     HeaderComponent,
     FooterComponent,
     HomeComponent,
+    ForumsComponent,
+    CreateForumComponent,
+    ForumDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,8 +46,18 @@ import { SharedService } from './services/shared.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTooltipModule,
   ],
-  providers: [AuthorizationService, SharedService],
+  providers: [
+    AuthorizationService,
+    SharedService,
+    ForumsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

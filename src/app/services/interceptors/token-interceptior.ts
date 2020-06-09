@@ -14,11 +14,14 @@ export class TokenInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): import('rxjs').Observable<HttpEvent<any>> {
-    const request = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${this.authorizationService.getToken()}`,
-      },
-    });
-    return next.handle(request);
+    if (req.url.search('/login') === -1 && req.url.search('/register') === -1) {
+      const request = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.authorizationService.getToken()}`,
+        },
+      });
+      return next.handle(request);
+    }
+    return next.handle(req);
   }
 }

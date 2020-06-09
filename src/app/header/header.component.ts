@@ -20,7 +20,6 @@ export class HeaderComponent implements OnInit {
     if (sessionStorage.getItem('token')) {
       this.getTokenData();
     }
-    console.log(this.colorCode);
   }
 
   getTokenData() {

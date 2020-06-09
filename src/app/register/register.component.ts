@@ -99,7 +99,6 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/login']);
           },
           (error) => {
-            console.log(error.error.response);
             alert(error.error.response);
           }
         );
