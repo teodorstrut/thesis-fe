@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ForumsService } from '../services/forums.service';
 import { AuthorizationService } from '../services/authorization.service';
 import { ForumViewModel } from '../models/forum-view.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forums',

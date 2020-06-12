@@ -33,7 +33,8 @@ export class CreateForumComponent implements OnInit {
       newForum.description = this.description;
       newForum.forumName = this.forumName.value;
       newForum.userId = this.userService.getCurrentUserId();
-      this.forumService.createForum(newForum).subscribe((data) => {
+      this.forumService.createForum(newForum).subscribe((data: any) => {
+        newForum.id = data.response;
         this.forumCreated.emit(newForum);
       });
     }

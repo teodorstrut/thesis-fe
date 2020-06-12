@@ -1,0 +1,53 @@
+<div class="col">
+  <div class="row justify-content-center">
+    <div
+      *ngIf="post"
+      id="pagecontent"
+      class="col-10 m-5 card border-rounded p-3"
+      style="min-width: 360px;"
+    >
+      <div class="row">
+        <div class="col-auto">
+          <h2>{{ post.title }}</h2>
+        </div>
+      </div>
+      <div class="row pb-3">
+        <div class="col-auto">
+          <span>{{ post.description }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" *ngIf="post.image">
+          <img
+            style="max-width: 400px; max-height: 800px;"
+            [src]="getImageContent(post.image)"
+            alt=""
+          />
+        </div>
+      </div>
+      <hr />
+      <div class="row justify-content-between">
+        <div class="col-auto"><span>Comments:</span></div>
+        <div class="col-auto">
+          <div
+            tabindex="8"
+            (click)="onShowCreateComment()"
+            class="col-auto web-hover-light rounded show-pointer py-1 px-2 mr-2"
+            matTooltip="Add a comment"
+            matTooltipClass="fs-14"
+          >
+            <i class="fa fa-plus text-web-primary"></i>
+          </div>
+        </div>
+      </div>
+      <app-add-comment
+        *ngIf="showCreateComments"
+        [isReply]="false"
+        [postId]="post.id"
+        (newCommentAdded)="onNewCommentCreated($event)"
+      ></app-add-comment>
+      <hr />
+      <app-comments-list [level]="1" [comments]="comments"></app-comments-list>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,4 @@
-$web-primary: #0f7173;
-$web-bg: #faf1ed;
-$web-hover-dark: #718075;
-$web-hover-light: #ececec;
+@import "./variables.scss";
 .bg-web-primary {
   background-color: $web-primary;
 }
@@ -21,7 +18,6 @@ $web-hover-light: #ececec;
 
 .web-hover-light:hover {
   background-color: $web-hover-light;
-  border-radius: 5%;
   -webkit-transition: background-color 0.2s ease-in-out;
   -moz-transition: background-color 0.2s ease-in-out;
   -o-transition: background-color 0.2s ease-in-out;

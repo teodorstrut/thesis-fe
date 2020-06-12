@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col">
+    <div class="row" *ngFor="let comment of comments; let i = index">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <span>{{ comment.text }}</span>
+          </div>
+          <div class="col-auto">
+            <i
+              [ngbPopover]="actions"
+              container="body"
+              class="fa fa-bars text-web-primary show-pointer py-1 px-2 mr-2"
+            ></i>
+          </div>
+        </div>
+        <div class="row pb-3">
+          <div class="col ml-5"><span class="text-muted">Posted by {{comment.ownerName}}</span></div>
+        </div>
+        <div class="row">
+          <ng-template #actions>
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <div
+                    class="col web-hover-light"
+                    (click)="replyToThisComment(i)"
+                  >
+                    Add comment
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <div class="col pl-3">
+            <app-add-comment
+              *ngIf="replyToComment === i"
+              [isReply]="true"
+              [postId]="comment.postId"
+              [parentId]="comment.id"
+            ></app-add-comment>
+          </div>
+        </div>
+        <div *ngIf="comment.replies.length > 0" class="row">
+          <div class="col pl-3" ngClass="ml-{{ level * 2 }}">
+            <app-comments-list
+              [level]="level + 1"
+              [comments]="comment.replies"
+            ></app-comments-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

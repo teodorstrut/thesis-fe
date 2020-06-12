@@ -2,30 +2,30 @@
   class="row w-100 ml-0 px-2 bg-web-primary align-items-center justify-content-between"
   style="height: 64px;"
 >
+  <a class="col-auto skip-link" [href]="skipLinkPath" tabindex="1"
+    ><span>Skip to main content</span></a
+  >
   <div class="col-auto">
     <div class="row">
       <div
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink=""
-        tabindex="1"
+        tabindex="2"
       >
         <span class="text-white font-weight-normal">Home</span>
       </div>
-      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="2">
+      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="3">
         <span class="text-white font-weight-normal">Popular</span>
       </div>
-      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="3">
+      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="4">
         <span class="text-white font-weight-normal">New</span>
       </div>
       <div
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="forums"
-        tabindex="4"
+        tabindex="5"
       >
         <span class="text-white font-weight-normal">Forums</span>
-      </div>
-      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="4">
-        <span class="text-white font-weight-normal">About us</span>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
           "
           [style.background]="colorCode"
         >
-          <span class="text-white">
+          <span [style.color]="textColor">
             {{ firstName.slice(0, 1).toUpperCase() }}
             {{ lastName.slice(0, 1).toUpperCase() }}
           </span>
@@ -55,7 +55,7 @@
         <div style="width: 1px; height: 40px; background-color: black;"></div>
       </div>
       <div
-        tabindex="5"
+        tabindex="6"
         *ngIf="!userLoggedIn"
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"
@@ -63,7 +63,7 @@
         <span class="text-white font-weight-normal">Log In</span>
       </div>
       <div
-        tabindex="5"
+        tabindex="6"
         *ngIf="userLoggedIn"
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"

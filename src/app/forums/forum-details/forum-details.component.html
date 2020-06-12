@@ -2,6 +2,7 @@
   <div class="row justify-content-center">
     <div
       *ngIf="forum"
+      id="pagecontent"
       class="col-10 m-5 card border-rounded p-3"
       style="min-width: 360px;"
     >
@@ -15,32 +16,33 @@
         <div class="col-auto">
           <span class="fs-16">What this forum is about:</span>
           <br />
-          <span class="fs-14">{{ forum.description }}</span>
+          <span class="fs-14">
+            <pre>{{ forum.description }}</pre>
+          </span>
         </div>
       </div>
       <hr />
       <div class="row justify-content-between align-items-center pb-3">
         <div class="col-auto">
-          <span class="fs-16">Threads:</span>
+          <span class="fs-16">Posts</span>
         </div>
-      </div>
-      <div
-        class="row w-100 ml-0 web-hover-light show-pointer"
-        *ngFor="let comment of comments"
-      >
-        <div class="col">
-          <div class="row">
-            <div class="col">
-              <span>{{ forum.forumName }}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <span>{{ forum.description }}</span>
-            </div>
+        <div class="col-auto">
+          <div
+            tabindex="8"
+            (click)="onShowCreatePost()"
+            class="col-auto web-hover-light rounded show-pointer py-1 px-2 mr-2"
+            matTooltip="Create a new post!"
+            matTooltipClass="fs-14"
+          >
+            <i class="fa fa-plus text-web-primary"></i>
           </div>
         </div>
       </div>
+      <app-create-post
+        [forumId]="forum.id"
+        *ngIf="showCreatePost"
+      ></app-create-post>
+      <app-posts-list [forum]="forum"></app-posts-list>
     </div>
   </div>
 </div>

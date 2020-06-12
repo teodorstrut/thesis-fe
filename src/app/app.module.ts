@@ -23,6 +23,13 @@ import { TokenInterceptor } from './services/interceptors/token-interceptior';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CreateForumComponent } from './forums/create-forum/create-forum.component';
 import { ForumDetailsComponent } from './forums/forum-details/forum-details.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { PostsListComponent } from './post/posts-list/posts-list.component';
+import { CreatePostComponent } from './post/create-post/create-post.component';
+import { PostDetailsComponent } from './post/post-details/post-details.component';
+import { CommentsListComponent } from './comments-list/comments-list.component';
+import { AddCommentComponent } from './comments-list/add-comment/add-comment.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +41,14 @@ import { ForumDetailsComponent } from './forums/forum-details/forum-details.comp
     ForumsComponent,
     CreateForumComponent,
     ForumDetailsComponent,
+    ImageUploadComponent,
+    PostsListComponent,
+    CreateForumComponent,
+    ForumDetailsComponent,
+    CreatePostComponent,
+    PostDetailsComponent,
+    CommentsListComponent,
+    AddCommentComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +62,7 @@ import { ForumDetailsComponent } from './forums/forum-details/forum-details.comp
     ReactiveFormsModule,
     HttpClientModule,
     MatTooltipModule,
+    NgbModule,
   ],
   providers: [
     AuthorizationService,

@@ -15,6 +15,7 @@ export class ForumDetailsComponent implements OnInit {
   ) {}
   forum: ForumViewModel;
   comments: any[];
+  showCreatePost = false;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params.forumId) {
@@ -25,5 +26,9 @@ export class ForumDetailsComponent implements OnInit {
           });
       }
     });
+  }
+
+  onShowCreatePost() {
+    this.showCreatePost = !this.showCreatePost;
   }
 }

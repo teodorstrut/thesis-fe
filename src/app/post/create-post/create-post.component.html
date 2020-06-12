@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col">
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label float="never">Name</mat-label>
+          <input
+            type="text"
+            [formControl]="name"
+            matInput
+            cdkTextareaAutosize="true"
+          />
+          <mat-error *ngIf="name.invalid">{{
+            getNameErrorMessage()
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label float="never">Description</mat-label>
+          <textarea
+            [formControl]="description"
+            matInput
+            cdkTextareaAutosize="true"
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="3"
+            cdkAutosizeMaxRows="10"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <app-image-upload
+          (fileUploaded)="onFileUploaded($event)"
+        ></app-image-upload>
+      </div>
+    </div>
+    <div class="row justify-content-end">
+      <div class="col-auto">
+        <button class="btn btn-primary" (click)="createPost($event)">
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
