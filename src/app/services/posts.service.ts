@@ -33,6 +33,8 @@ export class PostsService {
   }
 
   public likePost(post, userId) {
-    return this.http.get(this.apiUrl + '/like/' + userId + '/' + post);
+    return this.http.get(this.apiUrl + '/like/' + userId + '/' + post, {
+      responseType: 'text',
+    });
   }
 }

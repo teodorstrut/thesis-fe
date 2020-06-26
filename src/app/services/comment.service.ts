@@ -16,4 +16,16 @@ export class CommentService {
   getAllCommentsForPostId(postId: number) {
     return this.http.get(this.apiUrl + '/get/' + postId);
   }
+
+  deleteComment(commentId) {
+    return this.http.delete(this.apiUrl + '/remove/' + commentId, {
+      responseType: 'text',
+    });
+  }
+
+  updateComment(commentId: any, newComment: any) {
+    return this.http.post(this.apiUrl + '/update/' + commentId, newComment, {
+      responseType: 'text',
+    });
+  }
 }

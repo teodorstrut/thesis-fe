@@ -25,10 +25,11 @@ export class CreatePostComponent implements OnInit {
 
   createPost(event: any) {
     if (this.name.valid) {
-      this.imageData = this.imageData.replace('data:image/jpg;base64,', '');
-      this.imageData = this.imageData.replace('data:image/jpeg;base64,', '');
-      this.imageData = this.imageData.replace('data:image/png;base64,', '');
-      console.log(this.imageData);
+      if (this.imageData) {
+        this.imageData = this.imageData.replace('data:image/jpg;base64,', '');
+        this.imageData = this.imageData.replace('data:image/jpeg;base64,', '');
+        this.imageData = this.imageData.replace('data:image/png;base64,', '');
+      }
       this.postsService
         .createPost(
           this.name.value,

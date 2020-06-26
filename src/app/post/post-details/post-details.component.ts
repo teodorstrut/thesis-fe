@@ -21,6 +21,8 @@ export class PostDetailsComponent implements OnInit {
   post: Post;
   comments: CommentModel[];
   showCreateComments = false;
+  openReplyId: number;
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params.postId) {
@@ -45,10 +47,23 @@ export class PostDetailsComponent implements OnInit {
   }
 
   onShowCreateComment() {
-    this.showCreateComments = !this.showCreateComments;
+    if (this.openReplyId === -1) {
+      this.openReplyId = null;
+    } else {
+      this.openReplyId = -1;
+    }
   }
 
   onNewCommentCreated(newComment: CommentModel) {
-    this.showCreateComments = false;
+    this.comments.unshift(newComment);
+    this.openReplyId = null;
+  }
+
+  onReplyOpen(replyId) {
+    this.openReplyId = replyId;
+  }
+
+  onCreateCommentClosed(event: any) {
+    this.openReplyId = null;
   }
 }

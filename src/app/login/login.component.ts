@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
+
   ngOnInit(): void {}
 
   getEmailErrorMessage() {
@@ -39,15 +40,17 @@ export class LoginComponent implements OnInit {
       this.authorizationService
         .login(new LoginModel(this.email.value, this.password.value))
         .subscribe(
-          (data) => {
-            this.authorizationService.setToken(data.tokenData);
+          (data: string) => {
+            debugger;
+            this.authorizationService.setToken(data);
             this.sharedService.sendLogInTrigger();
             this.router.navigate(['/home'], {
               relativeTo: this.activatedRoute,
             });
           },
           (error) => {
-            alert(error.error);
+            debugger;
+            alert(error);
           }
         );
     }

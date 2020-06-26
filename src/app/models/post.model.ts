@@ -3,7 +3,7 @@ export class Post {
   public id: number;
   public description: string;
   public image: any;
-  public ownerId: number;
-  public psotId: number;
+  // Owner
+  public userId: number;
   public likes: number[];
 }

@@ -30,6 +30,9 @@ import { PostDetailsComponent } from './post/post-details/post-details.component
 import { CommentsListComponent } from './comments-list/comments-list.component';
 import { AddCommentComponent } from './comments-list/add-comment/add-comment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +52,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PostDetailsComponent,
     CommentsListComponent,
     AddCommentComponent,
+    TimeAgoPipe,
   ],
   imports: [
     BrowserModule,
@@ -62,12 +66,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     HttpClientModule,
     MatTooltipModule,
+    MatSelectModule,
     NgbModule,
   ],
   providers: [
     AuthorizationService,
     SharedService,
     ForumsService,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

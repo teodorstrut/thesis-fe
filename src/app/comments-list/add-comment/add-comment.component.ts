@@ -14,6 +14,7 @@ export class AddCommentComponent implements OnInit {
   @Input() postId: number;
   @Input() parentId: number;
   @Output() newCommentAdded = new EventEmitter<any>();
+  @Output() closed = new EventEmitter<any>();
   constructor(
     private authService: AuthorizationService,
     private commentService: CommentService
@@ -33,10 +34,17 @@ export class AddCommentComponent implements OnInit {
       newComment.postId = this.postId;
       newComment.text = this.commentText.value;
       newComment.parentId = this.parentId;
+      newComment.replies = [];
+      newComment.ownerName = this.authService.getCurrentUserFullName();
+      newComment.dateAdded = new Date();
       this.commentService.createComment(newComment).subscribe((data: any) => {
-        newComment.id = data.id;
+        newComment.id = data;
         this.newCommentAdded.emit(newComment);
       });
     }
+  }
+
+  cancelAddComment() {
+    this.closed.emit();
   }
 }

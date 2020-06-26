@@ -23,11 +23,20 @@ export class AuthorizationService {
     return jwt_decode(sessionStorage.getItem('token')).userId;
   }
 
+  getCurrentUserFullName(): string {
+    const userData = jwt_decode(sessionStorage.getItem('token'));
+    return userData.firstName + ' ' + userData.lastName;
+  }
+
   public login(loginModel: LoginModel): Observable<any> {
-    return this.http.post(this.apiUrl + '/login', {
-      email: loginModel.email,
-      password: loginModel.password,
-    });
+    return this.http.post(
+      this.apiUrl + '/login',
+      {
+        email: loginModel.email,
+        password: loginModel.password,
+      },
+      { responseType: 'text' }
+    );
   }
 
   public register(registerModel: RegisterModel): Observable<any> {

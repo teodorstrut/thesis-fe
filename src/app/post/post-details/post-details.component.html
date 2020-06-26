@@ -16,18 +16,14 @@
           <span>{{ post.description }}</span>
         </div>
       </div>
-      <div class="row">
-        <div class="col" *ngIf="post.image">
-          <img
-            style="max-width: 400px; max-height: 800px;"
-            [src]="getImageContent(post.image)"
-            alt=""
-          />
+      <div class="row justify-content-center">
+        <div class="col-auto" *ngIf="post.image">
+          <img [src]="getImageContent(post.image)" alt="" />
         </div>
       </div>
       <hr />
       <div class="row justify-content-between">
-        <div class="col-auto"><span>Comments:</span></div>
+        <div class="col-auto pb-3"><span>Comments:</span></div>
         <div class="col-auto">
           <div
             tabindex="8"
@@ -41,13 +37,18 @@
         </div>
       </div>
       <app-add-comment
-        *ngIf="showCreateComments"
+        *ngIf="openReplyId === -1"
         [isReply]="false"
         [postId]="post.id"
         (newCommentAdded)="onNewCommentCreated($event)"
+        (closed)="onCreateCommentClosed($event)"
       ></app-add-comment>
-      <hr />
-      <app-comments-list [level]="1" [comments]="comments"></app-comments-list>
+      <app-comments-list
+        [level]="1"
+        [comments]="comments"
+        (replyOpen)="onReplyOpen($event)"
+        [openReplyCommentId]="openReplyId"
+      ></app-comments-list>
     </div>
   </div>
 </div>

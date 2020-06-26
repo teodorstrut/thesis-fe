@@ -6,4 +6,6 @@ export class CommentModel {
   replies: CommentModel[];
   postId: number;
   parentId: number;
+  dateAdded: Date;
+  showEditable: boolean;
 }

@@ -3,49 +3,108 @@
     <div class="row" *ngFor="let comment of comments; let i = index">
       <div class="col">
         <div class="row">
-          <div class="col">
-            <span>{{ comment.text }}</span>
+          <div class="col pr-0 align-items-center">
+            <textarea
+              class="w-100 text-area-style align-top overflow-hidden text-dark"
+              type="text"
+              [disabled]="!comment.showEditable"
+              [(ngModel)]="comment.text"
+              [rows]="getCommentRows(comment.text)"
+              [ngClass]="{
+                'show-resize rounded': comment.showEditable,
+                'hide-resize border-0': !comment.showEditable
+              }"
+              maxrows="10"
+              [spellcheck]="!comment.showEditable"
+            ></textarea>
           </div>
           <div class="col-auto">
             <i
+              *ngIf="
+                !comment.showEditable &&
+                (comment.ownerId === currentUserId || level <= 5)
+              "
               [ngbPopover]="actions"
+              popoverClass="options-popover"
               container="body"
-              class="fa fa-bars text-web-primary show-pointer py-1 px-2 mr-2"
+              placement="bottom left-top"
+              class="fa fa-bars text-web-primary web-hover-light rounded show-pointer p-2 mr-2"
+            ></i>
+            <i
+              (click)="updateComment(comment)"
+              *ngIf="comment.showEditable"
+              class="p-2 fa fa-check text-success show-pointer rounded web-hover-light align-top overflow-hidden"
+              aria-hidden="true"
+            ></i>
+            <i
+              (click)="cancelEditComment(comment)"
+              *ngIf="comment.showEditable"
+              class="p-2 fa fa-times text-danger show-pointer rounded web-hover-light align-top overflow-hidden"
+              aria-hidden="true"
             ></i>
           </div>
         </div>
         <div class="row pb-3">
-          <div class="col ml-5"><span class="text-muted">Posted by {{comment.ownerName}}</span></div>
+          <div class="col">
+            <span class="text-muted"
+              >Posted by {{ comment.ownerName }},
+              {{ comment.dateAdded | timeAgo }}</span
+            >
+          </div>
         </div>
         <div class="row">
           <ng-template #actions>
-            <div class="row">
-              <div class="col">
-                <div class="row">
-                  <div
-                    class="col web-hover-light"
-                    (click)="replyToThisComment(i)"
-                  >
-                    Add comment
-                  </div>
+            <div class="col">
+              <div class="row show-pointer" *ngIf="level <= 5">
+                <div
+                  class="col py-2 web-hover-light"
+                  (click)="replyToThisComment(comment.id)"
+                >
+                  Add reply
+                </div>
+              </div>
+              <div
+                *ngIf="comment.ownerId === currentUserId"
+                class="row show-pointer"
+              >
+                <div
+                  class="col py-2 web-hover-light"
+                  (click)="showEditComment(comment)"
+                >
+                  Edit comment
+                </div>
+              </div>
+              <div
+                *ngIf="comment.ownerId === currentUserId"
+                class="row show-pointer"
+              >
+                <div
+                  class="col py-2 web-hover-light text-danger"
+                  (click)="removeComment(comment.id)"
+                >
+                  Remove comment
                 </div>
               </div>
             </div>
           </ng-template>
-          <div class="col pl-3">
+          <div *ngIf="openReplyCommentId === comment.id" class="col pl-3 ml-3">
             <app-add-comment
-              *ngIf="replyToComment === i"
               [isReply]="true"
               [postId]="comment.postId"
               [parentId]="comment.id"
+              (newCommentAdded)="onCommentAdded(comment, $event)"
+              (closed)="onAddCommentClosed($event)"
             ></app-add-comment>
           </div>
         </div>
-        <div *ngIf="comment.replies.length > 0" class="row">
-          <div class="col pl-3" ngClass="ml-{{ level * 2 }}">
+        <div *ngIf="comment.replies && comment.replies.length > 0" class="row">
+          <div class="col pl-3 ml-3">
             <app-comments-list
               [level]="level + 1"
               [comments]="comment.replies"
+              (replyOpen)="onReplyOpen($event)"
+              [openReplyCommentId]="openReplyCommentId"
+              [oldComment]="oldComment"
             ></app-comments-list>
           </div>
         </div>

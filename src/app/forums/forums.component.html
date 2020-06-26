@@ -6,11 +6,30 @@
       style="min-width: 360px;"
     >
       <div class="row justify-content-between align-items-center">
-        <div class="col-auto"><span class="fs-16">Browse Forums:</span></div>
+        <div class="col">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <span class="fs-16">Browse Forums by:</span>
+            </div>
+            <div class="col-auto">
+              <mat-form-field>
+                <mat-select [(value)]="forumFilters.filterType">
+                  <mat-option [value]="filterTypes.Subscribed"
+                    >Subscribed</mat-option
+                  >
+                  <mat-option [value]="filterTypes.Newest">Newest</mat-option>
+                  <mat-option [value]="filterTypes.MostPopular"
+                    >Most Popular</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
         <div
+          class="col-auto web-hover-light rounded show-pointer py-1 px-2 mr-2 float-right"
           tabindex="8"
           (click)="onShowCreateForum()"
-          class="col-auto web-hover-light rounded show-pointer py-1 px-2 mr-2"
           matTooltip="Create a new forum!"
           matTooltipClass="fs-14"
         >
