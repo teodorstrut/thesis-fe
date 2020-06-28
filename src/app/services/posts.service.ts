@@ -19,21 +19,31 @@ export class PostsService {
     userId: number,
     forumId: number
   ) {
-    return this.http.post(this.apiUrl + '/create', {
-      title,
-      userId,
-      description,
-      forumId,
-      image,
-    });
+    return this.http.post(
+      this.apiUrl + '/create',
+      {
+        title,
+        userId,
+        description,
+        forumId,
+        image,
+      },
+      { responseType: 'text' }
+    );
   }
 
   public getPostById(postId: number) {
     return this.http.get(this.apiUrl + '/' + postId);
   }
 
-  public likePost(post, userId) {
-    return this.http.get(this.apiUrl + '/like/' + userId + '/' + post, {
+  public likePost(postId, userId) {
+    return this.http.get(this.apiUrl + '/like/' + userId + '/' + postId, {
+      responseType: 'text',
+    });
+  }
+
+  public dislikePost(postId, userId) {
+    return this.http.get(this.apiUrl + '/dislike/' + userId + '/' + postId, {
       responseType: 'text',
     });
   }

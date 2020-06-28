@@ -6,4 +6,5 @@ export class Post {
   // Owner
   public userId: number;
   public likes: number[];
+  public dislikes: number[];
 }

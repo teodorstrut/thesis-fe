@@ -19,14 +19,20 @@
           />
         </div>
       </div>
-      <div class="row">
+      <div class="row mt-2">
         <div class="col">
           <i
-            class="fa fa-thumbs-up web-hover-light p-2"
+            class="fa fa-thumbs-up web-hover-light p-2 rounded"
             [ngClass]="isLikedByCurrentUser(post.likes)"
             (click)="likePost($event.stopPropagation(), post)"
           ></i
           ><span>{{ post.likes.length }}</span>
+          <i
+          class="fa fa-thumbs-down web-hover-light p-2 rounded"
+          [ngClass]="isDislikedByCurrentUser(post.dislikes)"
+          (click)="dislikePost($event.stopPropagation(), post)"
+        ></i
+        ><span>{{ post.dislikes.length }}</span>
         </div>
       </div>
     </div>

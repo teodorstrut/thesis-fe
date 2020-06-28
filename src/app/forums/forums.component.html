@@ -11,9 +11,9 @@
             <div class="col-auto">
               <span class="fs-16">Browse Forums by:</span>
             </div>
-            <div class="col-auto">
+            <div class="col-auto col-auto web-hover-light rounded">
               <mat-form-field>
-                <mat-select [(value)]="forumFilters.filterType">
+                <mat-select tabindex="8" [(value)]="forumFilters.filterType">
                   <mat-option [value]="filterTypes.Subscribed"
                     >Subscribed</mat-option
                   >
@@ -28,8 +28,9 @@
         </div>
         <div
           class="col-auto web-hover-light rounded show-pointer py-1 px-2 mr-2 float-right"
-          tabindex="8"
+          tabindex="9"
           (click)="onShowCreateForum()"
+          (keydown.enter)="onShowCreateForum()"
           matTooltip="Create a new forum!"
           matTooltipClass="fs-14"
         >
@@ -43,7 +44,7 @@
       ></app-create-forum>
       <div
         [routerLink]="['../forum', forum.id]"
-        class="row w-100 ml-0 web-hover-light rounded show-pointer"
+        class="row w-100 ml-0 web-hover-light rounded show-pointer py-3"
         *ngFor="let forum of forums"
       >
         <div class="col">
@@ -57,8 +58,13 @@
           <div class="row">
             <div class="col">
               <span>
-                <pre>{{ forum.description }}</pre>
+                <pre class="m-0">{{ forum.description }}</pre>
               </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="span text-muted">{{ forum.followers }} followers</div>
             </div>
           </div>
         </div>

@@ -24,4 +24,16 @@ export class ForumsService {
   public getForumById(id: number) {
     return this.http.get(this.apiUrl + '/get/' + id);
   }
+
+  public followForum(forumId, userId) {
+    return this.http.get(this.apiUrl + '/follow/' + userId + '/' + forumId, {
+      responseType: 'text',
+    });
+  }
+
+  unfollowForum(forumId: number, userId: number) {
+    return this.http.get(this.apiUrl + '/un-follow/' + userId + '/' + forumId, {
+      responseType: 'text',
+    });
+  }
 }

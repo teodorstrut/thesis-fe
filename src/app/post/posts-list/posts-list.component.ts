@@ -21,9 +21,7 @@ export class PostsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.postsService.getAllPosts(this.forum.id).subscribe((data: any) => {
-      this.posts = data;
-    });
+    this.posts = this.forum.posts;
   }
 
   getImageContent(image: string) {
@@ -40,14 +38,43 @@ export class PostsListComponent implements OnInit {
     }
   }
 
+  isDislikedByCurrentUser(dislikeList: number[]) {
+    if (dislikeList.indexOf(this.authService.getCurrentUserId()) > -1) {
+      return 'text-web-primary';
+    }
+  }
+
   likePost(event: any, post: Post) {
     if (post.likes.indexOf(this.authService.getCurrentUserId()) > -1) {
       return;
+    }
+    if (post.dislikes.indexOf(this.authService.getCurrentUserId()) > -1) {
+      post.dislikes.splice(
+        post.dislikes.indexOf(this.authService.getCurrentUserId()),
+        1
+      );
     }
     this.postsService
       .likePost(post.id, this.authService.getCurrentUserId())
       .subscribe((data) => {
         post.likes.push(this.authService.getCurrentUserId());
+      });
+  }
+
+  dislikePost(event: any, post: Post) {
+    if (post.dislikes.indexOf(this.authService.getCurrentUserId()) > -1) {
+      return;
+    }
+    if (post.likes.indexOf(this.authService.getCurrentUserId()) > -1) {
+      post.likes.splice(
+        post.likes.indexOf(this.authService.getCurrentUserId()),
+        1
+      );
+    }
+    this.postsService
+      .dislikePost(post.id, this.authService.getCurrentUserId())
+      .subscribe((data) => {
+        post.dislikes.push(this.authService.getCurrentUserId());
       });
   }
 }
