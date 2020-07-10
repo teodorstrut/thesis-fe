@@ -4,6 +4,7 @@ import { ForumViewModel } from 'src/app/models/forum-view.model';
 import { Post } from 'src/app/models/post.model';
 import { PostsService } from 'src/app/services/posts.service';
 import { AuthorizationService } from 'src/app/services/authorization.service';
+import { FileViewModel } from 'src/app/models/file.model';
 
 @Component({
   selector: 'app-posts-list',
@@ -24,10 +25,12 @@ export class PostsListComponent implements OnInit {
     this.posts = this.forum.posts;
   }
 
-  getImageContent(image: string) {
+  getFileContent(file: FileViewModel) {
     return (
-      'data:image/png;base64,' +
-      (this.sanitizer.bypassSecurityTrustUrl(image) as any)
+      'data:' +
+      file.type +
+      ';base64,' +
+      (this.sanitizer.bypassSecurityTrustUrl(file.data) as any)
         .changingThisBreaksApplicationSecurity
     );
   }

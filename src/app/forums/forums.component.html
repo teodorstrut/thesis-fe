@@ -48,11 +48,26 @@
         *ngFor="let forum of forums"
       >
         <div class="col">
-          <div class="row">
+          <div class="row justify-content-between">
             <div class="col">
               <span>
                 {{ forum.forumName }}
               </span>
+            </div>
+            <div class="col-auto p-0">
+              <i
+                (click)="
+                  forum.followed
+                    ? unfollowForum($event.stopPropagation(), forum)
+                    : followForum($event.stopPropagation(), forum)
+                "
+                class="py-1 px-2 mr-2 bookmark-icon fa fa-bookmark show-pointer web-hover-light rounded"
+                [ngClass]="{ 'text-web-primary hover-danger': forum.followed }"
+                [matTooltip]="
+                  forum.followed ? 'Un-follow this forum' : 'Follow forum'
+                "
+                matTooltipClass="fs-14"
+              ></i>
             </div>
           </div>
           <div class="row">

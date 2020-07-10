@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
         .login(new LoginModel(this.email.value, this.password.value))
         .subscribe(
           (data: string) => {
-            debugger;
             this.authorizationService.setToken(data);
             this.sharedService.sendLogInTrigger();
             this.router.navigate(['/home'], {
@@ -49,8 +48,7 @@ export class LoginComponent implements OnInit {
             });
           },
           (error) => {
-            debugger;
-            alert(error);
+            alert(error.error);
           }
         );
     }

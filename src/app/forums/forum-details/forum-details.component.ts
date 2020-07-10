@@ -22,6 +22,9 @@ export class ForumDetailsComponent implements OnInit {
   forum: ForumViewModel;
   comments: any[];
   showCreatePost = false;
+  editDescription = false;
+  isOwner = false;
+  oldForumDescription = '';
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -30,6 +33,9 @@ export class ForumDetailsComponent implements OnInit {
           .getForumById(params.forumId)
           .subscribe((data: any) => {
             this.forum = data;
+
+            this.checkIfCurrentUserIsOwner();
+
             this.postsService
               .getAllPosts(this.forum.id)
               .subscribe((posts: any) => {
@@ -46,6 +52,9 @@ export class ForumDetailsComponent implements OnInit {
 
   onPostAdded(newPost: Post) {
     this.forum.posts.unshift(newPost);
+    this.showCreatePost = !this.showCreatePost;
+  }
+  onPostAddCancelled($event) {
     this.showCreatePost = !this.showCreatePost;
   }
 
@@ -67,5 +76,47 @@ export class ForumDetailsComponent implements OnInit {
     this.forumService.unfollowForum(this.forum.id, userId).subscribe((data) => {
       this.forum.followed = false;
     });
+  }
+
+  updateForumDescription() {
+    if (
+      this.oldForumDescription === this.forum.description ||
+      this.forum.description.length === 0
+    ) {
+      return;
+    }
+    this.forumService
+      .updateDescription(this.forum.id, this.forum.description)
+      .subscribe((data) => {
+        this.oldForumDescription = this.forum.description;
+      });
+  }
+
+  enableEditDescription() {
+    if (this.isOwner) {
+      this.oldForumDescription = this.forum.description;
+      this.editDescription = true;
+      setTimeout(this.focusDescriptionTextbox, 0);
+    }
+  }
+
+  focusDescriptionTextbox() {
+    document.getElementById('descriptionArea').focus();
+  }
+
+  saveNewDescription() {
+    this.updateForumDescription();
+    this.editDescription = false;
+  }
+
+  discardDescriptionChanges() {
+    this.forum.description = this.oldForumDescription;
+    this.editDescription = false;
+  }
+
+  private checkIfCurrentUserIsOwner() {
+    this.authService.getCurrentUserId() === this.forum.userId
+      ? (this.isOwner = true)
+      : (this.isOwner = false);
   }
 }

@@ -24,12 +24,35 @@
       </div>
       <hr />
       <div class="row justify-content-between align-items-center">
-        <div class="col-auto">
-          <span class="fs-16">What this forum is about:</span>
-          <br />
-          <span class="fs-14">
-            <pre>{{ forum.description }}</pre>
-          </span>
+        <div class="col">
+          <div class="row">
+            <div class="col-auto">
+              <span class="fs-16">What this forum is about:</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="row pb-3">
+                <div class="col p-0 mx-3" (click)="enableEditDescription()">
+                  <textarea
+                    id="descriptionArea"
+                    class="w-100 m-0 text-area-style rounded h-100 show-pointer"
+                    [ngClass]="{
+                      'show-pointer web-hover-light':
+                        !editDescription && isOwner,
+                      'show-edit': editDescription,
+                      'border-0': !isOwner
+                    }"
+                    (blur)="saveNewDescription()"
+                    (keydown.enter)="saveNewDescription()"
+                    (keydown.escape)="discardDescriptionChanges()"
+                    [disabled]="!editDescription"
+                    [(ngModel)]="forum.description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <hr />
@@ -52,6 +75,7 @@
       <app-create-post
         [forumId]="forum.id"
         (postAdded)="onPostAdded($event)"
+        (cancel)="onPostAddCancelled($event)"
         *ngIf="showCreatePost"
       ></app-create-post>
       <app-posts-list *ngIf="forum.posts" [(forum)]="forum"></app-posts-list>

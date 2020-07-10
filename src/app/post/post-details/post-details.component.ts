@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Post } from 'src/app/models/post.model';
 import { CommentModel } from 'src/app/models/comment.model';
 import { CommentService } from 'src/app/services/comment.service';
+import { AuthorizationService } from 'src/app/services/authorization.service';
+import { FileViewModel } from 'src/app/models/file.model';
 
 @Component({
   selector: 'app-post-details',
@@ -16,18 +18,23 @@ export class PostDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private postService: PostsService,
     private sanitizer: DomSanitizer,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private authService: AuthorizationService
   ) {}
   post: Post;
   comments: CommentModel[];
   showCreateComments = false;
   openReplyId: number;
-
+  oldPostDescription = '';
+  editDescription = false;
+  isOwner = false;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params.postId) {
         this.postService.getPostById(params.postId).subscribe((data: Post) => {
           this.post = data;
+
+          this.checkIfCurrentUserIsOwner();
           this.commentService
             .getAllCommentsForPostId(data.id)
             .subscribe((comments: CommentModel[]) => {
@@ -38,10 +45,12 @@ export class PostDetailsComponent implements OnInit {
     });
   }
 
-  getImageContent(image: string) {
+  getFileContent(file: FileViewModel) {
     return (
-      'data:image/png;base64,' +
-      (this.sanitizer.bypassSecurityTrustUrl(image) as any)
+      'data:' +
+      file.type +
+      ';base64,' +
+      (this.sanitizer.bypassSecurityTrustUrl(file.data) as any)
         .changingThisBreaksApplicationSecurity
     );
   }
@@ -65,5 +74,47 @@ export class PostDetailsComponent implements OnInit {
 
   onCreateCommentClosed(event: any) {
     this.openReplyId = null;
+  }
+
+  updatePostDescription() {
+    if (
+      this.oldPostDescription === this.post.description ||
+      this.post.description.length === 0
+    ) {
+      return;
+    }
+    this.postService
+      .updateDescription(this.post.id, this.post.description)
+      .subscribe((data) => {
+        this.oldPostDescription = this.post.description;
+      });
+  }
+
+  enableEditDescription() {
+    if (this.isOwner) {
+      this.oldPostDescription = this.post.description;
+      this.editDescription = true;
+      setTimeout(this.focusDescriptionTextbox, 0);
+    }
+  }
+
+  focusDescriptionTextbox() {
+    document.getElementById('descriptionArea').focus();
+  }
+
+  saveNewDescription() {
+    this.updatePostDescription();
+    this.editDescription = false;
+  }
+
+  discardDescriptionChanges() {
+    this.post.description = this.oldPostDescription;
+    this.editDescription = false;
+  }
+
+  private checkIfCurrentUserIsOwner() {
+    this.authService.getCurrentUserId() === this.post.userId
+      ? (this.isOwner = true)
+      : (this.isOwner = false);
   }
 }

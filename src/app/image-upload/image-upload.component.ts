@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FileViewModel } from '../models/file.model';
 
 @Component({
   selector: 'app-image-upload',
@@ -7,9 +8,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class ImageUploadComponent implements OnInit {
   constructor() {}
-  imgUrl: any;
+  fileUrl: any;
+  fileType: string;
   error: string;
-
+  isImage: boolean;
   @Output() fileUploaded = new EventEmitter<any>();
 
   ngOnInit(): void {}
@@ -18,16 +20,25 @@ export class ImageUploadComponent implements OnInit {
     if (file.files[0].length === 0) {
       return;
     }
-    const fileType = file.files[0].type;
-    if (fileType.match(/image\/*/) === null) {
-      this.error = 'Images supported only';
+    this.fileType = file.files[0].type;
+    if (this.fileType.match(/image\/*/) !== null) {
+      this.isImage = true;
+    } else if (this.fileType.match(/video\/*/) !== null) {
+      this.isImage = false;
+    } else {
+      this.error = 'Images and videos supported only';
       return;
     }
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file.files[0]);
     fileReader.onload = (event) => {
-      this.imgUrl = fileReader.result;
-      this.fileUploaded.emit(fileReader.result);
+      this.fileUrl = fileReader.result;
+      const newFile = new FileViewModel(
+        file.files[0].name,
+        file.files[0].type,
+        this.fileUrl
+      );
+      this.fileUploaded.emit(newFile);
     };
   }
 }

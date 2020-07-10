@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FileViewModel } from '../models/file.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class PostsService {
   public createPost(
     title: string,
     description: string,
-    image: any,
+    file: FileViewModel,
     userId: number,
     forumId: number
   ) {
@@ -26,7 +27,7 @@ export class PostsService {
         userId,
         description,
         forumId,
-        image,
+        file,
       },
       { responseType: 'text' }
     );
@@ -46,5 +47,12 @@ export class PostsService {
     return this.http.get(this.apiUrl + '/dislike/' + userId + '/' + postId, {
       responseType: 'text',
     });
+  }
+
+  public updateDescription(postId: number, description: string) {
+    return this.http.post(
+      this.apiUrl + '/update-description/' + postId,
+      description
+    );
   }
 }

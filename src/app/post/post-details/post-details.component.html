@@ -12,13 +12,40 @@
         </div>
       </div>
       <div class="row pb-3">
-        <div class="col-auto">
-          <span>{{ post.description }}</span>
+        <div class="col p-0 mx-3" (click)="enableEditDescription()">
+          <textarea
+            id="descriptionArea"
+            class="w-100 m-0 text-area-style rounded h-100 show-pointer"
+            [ngClass]="{
+              'show-pointer web-hover-light': !editDescription && isOwner,
+              'show-edit': editDescription,
+              'border-0': !isOwner
+            }"
+            (blur)="saveNewDescription()"
+            (keydown.enter)="saveNewDescription()"
+            (keydown.escape)="discardDescriptionChanges()"
+            [disabled]="!editDescription"
+            [(ngModel)]="post.description"
+          ></textarea>
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-auto" *ngIf="post.image">
-          <img [src]="getImageContent(post.image)" alt="" />
+        <div
+          class="col-6 text-center"
+          *ngIf="post.file && post.file.type.includes('image')"
+        >
+          <img [src]="getFileContent(post.file)" [alt]="post.file.name" />
+        </div>
+        <div
+          class="col-6 text-center"
+          *ngIf="post.file && post.file.type.includes('video')"
+        >
+          <video
+            controls
+            style="width: 100%; max-height: 800px; background: black;"
+          >
+            <source [src]="getFileContent(post.file)" [type]="post.file.type" />
+          </video>
         </div>
       </div>
       <hr />

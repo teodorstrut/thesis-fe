@@ -11,8 +11,8 @@
               [(ngModel)]="comment.text"
               [rows]="getCommentRows(comment.text)"
               [ngClass]="{
-                'show-resize rounded': comment.showEditable,
-                'hide-resize border-0': !comment.showEditable
+                'rounded': comment.showEditable,
+                'border-0': !comment.showEditable
               }"
               maxrows="10"
               [spellcheck]="!comment.showEditable"

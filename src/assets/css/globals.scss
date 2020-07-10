@@ -40,6 +40,10 @@
   cursor: pointer;
 }
 
+.show-edit {
+  cursor: text;
+}
+
 .fs-12 {
   font-size: 12px;
 }
@@ -70,4 +74,9 @@
 
 .text-web-primary {
   color: $web-primary;
+}
+
+.text-area-style {
+  background-color: white;
+  resize: none !important;
 }

@@ -13,10 +13,24 @@
         <div class="col text-center">
           <img
             style="width: 100%; max-height: 800px;"
-            *ngIf="post.image"
-            [src]="getImageContent(post.image)"
-            alt=""
+            *ngIf="post.file && post.file.type.includes('image')"
+            [src]="getFileContent(post.file)"
+            [alt]="post.file.name"
           />
+          <div
+            class="col"
+            *ngIf="post.file && post.file.type.includes('video')"
+          >
+            <video
+              controls
+              style="width: 100%; max-height: 800px; background: black;"
+            >
+              <source
+                [src]="getFileContent(post.file)"
+                [type]="post.file.type"
+              />
+            </video>
+          </div>
         </div>
       </div>
       <div class="row mt-2">
@@ -28,11 +42,11 @@
           ></i
           ><span>{{ post.likes.length }}</span>
           <i
-          class="fa fa-thumbs-down web-hover-light p-2 rounded"
-          [ngClass]="isDislikedByCurrentUser(post.dislikes)"
-          (click)="dislikePost($event.stopPropagation(), post)"
-        ></i
-        ><span>{{ post.dislikes.length }}</span>
+            class="fa fa-thumbs-down web-hover-light p-2 rounded"
+            [ngClass]="isDislikedByCurrentUser(post.dislikes)"
+            (click)="dislikePost($event.stopPropagation(), post)"
+          ></i
+          ><span>{{ post.dislikes.length }}</span>
         </div>
       </div>
     </div>

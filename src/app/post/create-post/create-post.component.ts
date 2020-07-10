@@ -4,6 +4,8 @@ import { PostsService } from 'src/app/services/posts.service';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { ForumViewModel } from 'src/app/models/forum-view.model';
 import { Post } from 'src/app/models/post.model';
+import { FileViewModel } from 'src/app/models/file.model';
+import { FILE_TYPES } from 'src/app/constants';
 
 @Component({
   selector: 'app-create-post',
@@ -13,7 +15,8 @@ import { Post } from 'src/app/models/post.model';
 export class CreatePostComponent implements OnInit {
   @Input() forumId: number;
   @Output() postAdded = new EventEmitter<any>();
-  imageData: string;
+  @Output() cancel = new EventEmitter<any>();
+  fileData: FileViewModel;
   name = new FormControl('', [Validators.required]);
   description = new FormControl('');
   constructor(
@@ -22,22 +25,25 @@ export class CreatePostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-  onFileUploaded(event) {
-    this.imageData = event;
+  onFileUploaded(event: FileViewModel) {
+    this.fileData = event;
   }
 
   createPost(event: any) {
     if (this.name.valid) {
-      if (this.imageData) {
-        this.imageData = this.imageData.replace('data:image/jpg;base64,', '');
-        this.imageData = this.imageData.replace('data:image/jpeg;base64,', '');
-        this.imageData = this.imageData.replace('data:image/png;base64,', '');
+      if (this.fileData) {
+        if (FILE_TYPES.indexOf(this.fileData.type) > 0) {
+          this.fileData.data = this.fileData.data.replace(
+            'data:' + this.fileData.type + ';base64,',
+            ''
+          );
+        }
       }
       this.postsService
         .createPost(
           this.name.value,
           this.description.value,
-          this.imageData,
+          this.fileData,
           this.authSerivce.getCurrentUserId(),
           this.forumId
         )
@@ -46,6 +52,13 @@ export class CreatePostComponent implements OnInit {
           this.postAdded.emit(newPost);
         });
     }
+  }
+
+  cancelCreate() {
+    this.cancel.emit();
+    this.name.reset();
+    this.description.reset();
+    this.fileData = null;
   }
 
   getNameErrorMessage() {
@@ -60,7 +73,7 @@ export class CreatePostComponent implements OnInit {
     newPost.title = this.name.value;
     newPost.description = this.description.value;
     newPost.userId = this.authSerivce.getCurrentUserId();
-    newPost.image = this.imageData;
+    newPost.file = this.fileData;
     newPost.likes = [];
     newPost.dislikes = [];
     return newPost;

@@ -1,22 +1,25 @@
-<div class="col">
-  <div class="row">
-    <div class="col">
-      <input
-        #file
-        type="file"
-        accept="image/*"
-        (change)="sendToPreview(file)"
-      />
-    </div>
+<div class="row">
+  <div class="col">
+    <input
+      #file
+      type="file"
+      accept="image/*,video/*"
+      (change)="sendToPreview(file)"
+    />
   </div>
-  <div class="row">
-    <div class="col">
-      <img [src]="imgUrl" height="200" *ngIf="imgUrl" />
-    </div>
+</div>
+<div class="row">
+  <div class="col" *ngIf="fileUrl && isImage">
+    <img [src]="fileUrl" height="200" />
   </div>
-  <div class="row">
-    <div class="col">
-      <span class="text-danger fs-14" *ngIf="error">{{ error }}</span>
-    </div>
+  <div class="col" *ngIf="fileUrl && !isImage">
+    <video controls height="200">
+      <source [src]="fileUrl" type="video/mp4" />
+    </video>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <span class="text-danger fs-14" *ngIf="error">{{ error }}</span>
   </div>
 </div>

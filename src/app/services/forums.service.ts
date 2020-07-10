@@ -36,4 +36,12 @@ export class ForumsService {
       responseType: 'text',
     });
   }
+
+  updateDescription(forumId: number, description: string) {
+    return this.http.post(
+      this.apiUrl + '/update-description/' + forumId,
+      description,
+      { responseType: 'text' }
+    );
+  }
 }
