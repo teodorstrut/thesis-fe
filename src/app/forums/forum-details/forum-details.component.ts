@@ -25,6 +25,10 @@ export class ForumDetailsComponent implements OnInit {
   editDescription = false;
   isOwner = false;
   oldForumDescription = '';
+  rows = 0;
+  showMore = false;
+  pageIndex = 0;
+  pageSize = 15;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -37,7 +41,7 @@ export class ForumDetailsComponent implements OnInit {
             this.checkIfCurrentUserIsOwner();
 
             this.postsService
-              .getAllPosts(this.forum.id)
+              .getPosts(this.forum.id, this.pageIndex, this.pageSize)
               .subscribe((posts: any) => {
                 this.forum.posts = posts;
               });
@@ -118,5 +122,33 @@ export class ForumDetailsComponent implements OnInit {
     this.authService.getCurrentUserId() === this.forum.userId
       ? (this.isOwner = true)
       : (this.isOwner = false);
+  }
+
+  computeNumberOfRows(text: string) {
+    this.rows = text.split('\n').length;
+    if (!this.showMore) {
+      if (this.rows > 10) {
+        return 10;
+      } else {
+        return this.rows;
+      }
+    } else {
+      return this.rows;
+    }
+  }
+
+  toggleShowMoreDescription() {
+    this.showMore = !this.showMore;
+  }
+
+  onGetMorePosts() {
+    this.pageIndex++;
+    this.postsService
+      .getPosts(this.forum.id, this.pageIndex, this.pageSize)
+      .subscribe((posts: any) => {
+        posts.forEach((post) => {
+          this.forum.posts.push(post);
+        });
+      });
   }
 }

@@ -21,6 +21,7 @@
               required
               placeholder="example@abc.com"
               [formControl]="email"
+              (keydown.enter)="login()"
             />
             <mat-error *ngIf="email.invalid">{{
               getEmailErrorMessage()
@@ -38,6 +39,7 @@
               required
               placeholder="YoUr@1PassWord"
               [formControl]="password"
+              (keydown.enter)="login()"
             />
             <mat-error *ngIf="password.invalid">{{
               getPasswordErrorMessage()

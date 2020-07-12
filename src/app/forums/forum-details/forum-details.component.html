@@ -36,7 +36,7 @@
                 <div class="col p-0 mx-3" (click)="enableEditDescription()">
                   <textarea
                     id="descriptionArea"
-                    class="w-100 m-0 text-area-style rounded h-100 show-pointer"
+                    class="w-100 m-0 text-area-style rounded h-100 show-pointer overflow-hidden"
                     [ngClass]="{
                       'show-pointer web-hover-light':
                         !editDescription && isOwner,
@@ -48,9 +48,19 @@
                     (keydown.escape)="discardDescriptionChanges()"
                     [disabled]="!editDescription"
                     [(ngModel)]="forum.description"
+                    [rows]="computeNumberOfRows(forum.description)"
                   ></textarea>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row justify-content-center" *ngIf="rows > 10">
+            <div class="col">
+              <span
+                class="text-web-primary show-pointer"
+                (click)="toggleShowMoreDescription()"
+                >{{ showMore === true ? "show less" : "show more" }}</span
+              >
             </div>
           </div>
         </div>
@@ -78,7 +88,12 @@
         (cancel)="onPostAddCancelled($event)"
         *ngIf="showCreatePost"
       ></app-create-post>
-      <app-posts-list *ngIf="forum.posts" [(forum)]="forum"></app-posts-list>
+      <app-posts-list
+        *ngIf="forum.posts"
+        [(forum)]="forum"
+        [(posts)]="forum.posts"
+        (getMorePosts)="onGetMorePosts()"
+      ></app-posts-list>
     </div>
   </div>
 </div>

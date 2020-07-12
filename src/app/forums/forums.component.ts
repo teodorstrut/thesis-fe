@@ -57,4 +57,19 @@ export class ForumsComponent implements OnInit {
       forum.followers--;
     });
   }
+
+  displayDescription(text: string) {
+    const lines = text.split('\n');
+    const rows = lines.length;
+    if (rows > 4) {
+      let returnedString = '';
+      for (let i = 0; i < 4; i++) {
+        returnedString += lines[i] + '\n';
+      }
+      returnedString += '...';
+      return returnedString;
+    } else {
+      return text;
+    }
+  }
 }

@@ -28,6 +28,9 @@ export class PostDetailsComponent implements OnInit {
   oldPostDescription = '';
   editDescription = false;
   isOwner = false;
+  showMore = false;
+  rows = 0;
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params.postId) {
@@ -116,5 +119,22 @@ export class PostDetailsComponent implements OnInit {
     this.authService.getCurrentUserId() === this.post.userId
       ? (this.isOwner = true)
       : (this.isOwner = false);
+  }
+
+  computeNumberOfRows(text: string) {
+    this.rows = text.split('\n').length;
+    if (!this.showMore) {
+      if (this.rows > 10) {
+        return 10;
+      } else {
+        return this.rows;
+      }
+    } else {
+      return this.rows;
+    }
+  }
+
+  toggleShowMoreDescription() {
+    this.showMore = !this.showMore;
   }
 }

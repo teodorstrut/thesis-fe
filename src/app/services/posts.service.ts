@@ -9,8 +9,10 @@ export class PostsService {
   private apiUrl = 'http://localhost:8080/posts';
   constructor(private http: HttpClient) {}
 
-  public getAllPosts(forumId: number) {
-    return this.http.get(this.apiUrl + '/forum/' + forumId);
+  public getPosts(forumId: number, pageIndex: number, pageSize) {
+    return this.http.get(
+      this.apiUrl + '/forum/' + forumId + '/' + pageIndex + '/' + pageSize
+    );
   }
 
   public createPost(

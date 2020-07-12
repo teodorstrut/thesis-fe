@@ -33,6 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { MatSelectModule } from '@angular/material/select';
+import { ScrollSharedService } from './shared-services/scroll-shared.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +75,7 @@ import { MatSelectModule } from '@angular/material/select';
     SharedService,
     ForumsService,
     DatePipe,
+    ScrollSharedService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

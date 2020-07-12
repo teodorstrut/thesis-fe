@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { PostsService } from 'src/app/services/posts.service';
 import { AuthorizationService } from 'src/app/services/authorization.service';
-import { ForumViewModel } from 'src/app/models/forum-view.model';
 import { Post } from 'src/app/models/post.model';
 import { FileViewModel } from 'src/app/models/file.model';
 import { FILE_TYPES } from 'src/app/constants';
@@ -29,7 +28,7 @@ export class CreatePostComponent implements OnInit {
     this.fileData = event;
   }
 
-  createPost(event: any) {
+  createPost() {
     if (this.name.valid) {
       if (this.fileData) {
         if (FILE_TYPES.indexOf(this.fileData.type) > 0) {

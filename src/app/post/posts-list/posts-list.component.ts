@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ForumViewModel } from 'src/app/models/forum-view.model';
 import { Post } from 'src/app/models/post.model';
 import { PostsService } from 'src/app/services/posts.service';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { FileViewModel } from 'src/app/models/file.model';
+import { ScrollSharedService } from 'src/app/shared-services/scroll-shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-posts-list',
@@ -13,16 +15,22 @@ import { FileViewModel } from 'src/app/models/file.model';
 })
 export class PostsListComponent implements OnInit {
   @Input() forum: ForumViewModel;
-  posts: Post[];
+  @Input() posts: Post[];
+  @Output() getMorePosts = new EventEmitter<any>();
+
+  scrollSubscription: Subscription;
 
   constructor(
     private postsService: PostsService,
     private sanitizer: DomSanitizer,
-    private authService: AuthorizationService
+    private authService: AuthorizationService,
+    private scrollSharedService: ScrollSharedService
   ) {}
 
   ngOnInit(): void {
-    this.posts = this.forum.posts;
+    this.scrollSubscription = this.scrollSharedService
+      .awaitScrollEvent()
+      .subscribe((_) => this.getMorePosts.emit());
   }
 
   getFileContent(file: FileViewModel) {
