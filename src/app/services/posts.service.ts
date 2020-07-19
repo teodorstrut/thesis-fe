@@ -57,4 +57,14 @@ export class PostsService {
       description
     );
   }
+
+  public getNewestPosts(pageIndex: number, pageSize: number) {
+    return this.http.get(this.apiUrl + '/newest/' + pageIndex + '/' + pageSize);
+  }
+
+  public getPopularPosts(pageIndex: number, pageSize: number) {
+    return this.http.get(
+      this.apiUrl + '/popular/' + pageIndex + '/' + pageSize
+    );
+  }
 }

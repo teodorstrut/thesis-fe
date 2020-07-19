@@ -34,6 +34,8 @@ import { DatePipe } from '@angular/common';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { ScrollSharedService } from './shared-services/scroll-shared.service';
+import { PopularComponent } from './popular/popular.component';
+import { NewComponent } from './new/new.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +56,8 @@ import { ScrollSharedService } from './shared-services/scroll-shared.service';
     CommentsListComponent,
     AddCommentComponent,
     TimeAgoPipe,
+    PopularComponent,
+    NewComponent,
   ],
   imports: [
     BrowserModule,

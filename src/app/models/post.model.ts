@@ -9,4 +9,7 @@ export class Post {
   public userId: number;
   public likes: number[];
   public dislikes: number[];
+  public userName: string;
+  public forumName: string;
+  public forumId: string;
 }

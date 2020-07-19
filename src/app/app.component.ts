@@ -9,10 +9,7 @@ import { ScrollSharedService } from './shared-services/scroll-shared.service';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'thesis-fe';
   thresholdReached = false;
-  scrollSharedServiceval;
-  constructor(private scrollSharedService: ScrollSharedService) {
-    this.scrollSharedServiceval = scrollSharedService;
-  }
+  constructor(private scrollSharedService: ScrollSharedService) {}
 
   ngOnInit() {}
 
@@ -27,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
       ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100;
     if (scrollPercent >= 80 && !this.thresholdReached) {
       this.thresholdReached = true;
-      this.scrollSharedServiceval.sendScrollEvent();
+      this.scrollSharedService.sendScrollEvent();
     } else if (scrollPercent < 80 && this.thresholdReached) {
       this.thresholdReached = false;
     }

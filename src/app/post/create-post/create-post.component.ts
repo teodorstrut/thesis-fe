@@ -5,6 +5,7 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
 import { Post } from 'src/app/models/post.model';
 import { FileViewModel } from 'src/app/models/file.model';
 import { FILE_TYPES } from 'src/app/constants';
+import { ForumViewModel } from 'src/app/models/forum-view.model';
 
 @Component({
   selector: 'app-create-post',
@@ -12,7 +13,7 @@ import { FILE_TYPES } from 'src/app/constants';
   styleUrls: ['./create-post.component.scss'],
 })
 export class CreatePostComponent implements OnInit {
-  @Input() forumId: number;
+  @Input() forum: ForumViewModel;
   @Output() postAdded = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<any>();
   fileData: FileViewModel;
@@ -31,7 +32,7 @@ export class CreatePostComponent implements OnInit {
   createPost() {
     if (this.name.valid) {
       if (this.fileData) {
-        if (FILE_TYPES.indexOf(this.fileData.type) > 0) {
+        if (FILE_TYPES.indexOf(this.fileData.type) > -1) {
           this.fileData.data = this.fileData.data.replace(
             'data:' + this.fileData.type + ';base64,',
             ''
@@ -44,7 +45,7 @@ export class CreatePostComponent implements OnInit {
           this.description.value,
           this.fileData,
           this.authSerivce.getCurrentUserId(),
-          this.forumId
+          this.forum.id
         )
         .subscribe((data) => {
           const newPost = this.createPostModel(data);
@@ -75,6 +76,8 @@ export class CreatePostComponent implements OnInit {
     newPost.file = this.fileData;
     newPost.likes = [];
     newPost.dislikes = [];
+    newPost.userName = this.authSerivce.getCurrentUserFullName();
+    newPost.forumName = this.forum.forumName;
     return newPost;
   }
 }

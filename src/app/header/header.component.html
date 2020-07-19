@@ -9,15 +9,23 @@
     <div class="row">
       <div
         class="col-auto web-hover-dark show-pointer p-3"
-        routerLink=""
+        routerLink="home"
         tabindex="2"
       >
         <span class="text-white font-weight-normal">Home</span>
       </div>
-      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="3">
+      <div
+        class="col-auto web-hover-dark show-pointer p-3"
+        tabindex="3"
+        routerLink="popular"
+      >
         <span class="text-white font-weight-normal">Popular</span>
       </div>
-      <div class="col-auto web-hover-dark show-pointer p-3" tabindex="4">
+      <div
+        class="col-auto web-hover-dark show-pointer p-3"
+        tabindex="4"
+        routerLink="new"
+      >
         <span class="text-white font-weight-normal">New</span>
       </div>
       <div
@@ -31,27 +39,31 @@
   </div>
   <div class="col-auto">
     <div class="row justify-content-end align-items-center">
-      <div class="col-auto" *ngIf="userLoggedIn">
-        <div
-          class="border rounded-circle text-center"
-          style="
-            height: 36px;
-            width: 36px;
-            line-height: 36px;
-            border-width: 1ch;
-          "
-          [style.background]="colorCode"
-        >
-          <span [style.color]="textColor">
-            {{ firstName.slice(0, 1).toUpperCase() }}
-            {{ lastName.slice(0, 1).toUpperCase() }}
-          </span>
+      <div class="col-auto web-hover-dark show-pointer py-2">
+        <div class="row align-items-center">
+          <div class="col-auto" *ngIf="userLoggedIn">
+            <div
+              class="border rounded-circle text-center"
+              style="
+                height: 36px;
+                width: 36px;
+                line-height: 36px;
+                border-width: 1ch;
+              "
+              [style.background]="colorCode"
+            >
+              <span [style.color]="textColor">
+                {{ firstName.slice(0, 1).toUpperCase() }}
+                {{ lastName.slice(0, 1).toUpperCase() }}
+              </span>
+            </div>
+          </div>
+          <div class="col-auto pl-0">
+            <span class="fs-16 text-white">{{ firstName }} {{ lastName }}</span>
+          </div>
         </div>
       </div>
-      <div class="col-auto pl-0 fs-16 text-white">
-        <span>{{ firstName }} {{ lastName }}</span>
-      </div>
-      <div class="col-auto pl-0">
+      <div class="col-auto">
         <div style="width: 1px; height: 40px; background-color: black;"></div>
       </div>
       <div

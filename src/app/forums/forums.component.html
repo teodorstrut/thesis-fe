@@ -15,11 +15,11 @@
               <mat-form-field>
                 <mat-select tabindex="8" [(value)]="forumFilters.filterType">
                   <mat-option [value]="filterTypes.Subscribed"
-                    >Subscribed</mat-option
+                    >My subscriptions</mat-option
                   >
                   <mat-option [value]="filterTypes.Newest">Newest</mat-option>
                   <mat-option [value]="filterTypes.MostPopular"
-                    >Most Popular</mat-option
+                    >Most subscribed</mat-option
                   >
                 </mat-select>
               </mat-form-field>
@@ -81,7 +81,7 @@
           </div>
           <div class="row">
             <div class="col">
-              <div class="span text-muted">{{ forum.followers }} followers</div>
+              <span class="text-muted">{{ forum.followers }} followers</span>
             </div>
           </div>
         </div>

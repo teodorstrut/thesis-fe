@@ -6,12 +6,14 @@ import { RegisterComponent } from './register/register.component';
 import { ForumsComponent } from './forums/forums.component';
 import { ForumDetailsComponent } from './forums/forum-details/forum-details.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
+import { PopularComponent } from './popular/popular.component';
+import { NewComponent } from './new/new.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'popular', component: HomeComponent },
-  { path: 'new', component: HomeComponent },
+  { path: 'popular', component: PopularComponent },
+  { path: 'new', component: NewComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {

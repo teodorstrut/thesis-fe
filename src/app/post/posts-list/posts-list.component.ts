@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ForumViewModel } from 'src/app/models/forum-view.model';
 import { Post } from 'src/app/models/post.model';
 import { PostsService } from 'src/app/services/posts.service';
 import { AuthorizationService } from 'src/app/services/authorization.service';
@@ -14,7 +13,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./posts-list.component.scss'],
 })
 export class PostsListComponent implements OnInit {
-  @Input() forum: ForumViewModel;
   @Input() posts: Post[];
   @Output() getMorePosts = new EventEmitter<any>();
 

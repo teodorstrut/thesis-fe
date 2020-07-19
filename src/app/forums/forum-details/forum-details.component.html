@@ -83,14 +83,13 @@
         </div>
       </div>
       <app-create-post
-        [forumId]="forum.id"
+        [forum]="forum"
         (postAdded)="onPostAdded($event)"
         (cancel)="onPostAddCancelled($event)"
         *ngIf="showCreatePost"
       ></app-create-post>
       <app-posts-list
         *ngIf="forum.posts"
-        [(forum)]="forum"
         [(posts)]="forum.posts"
         (getMorePosts)="onGetMorePosts()"
       ></app-posts-list>

@@ -1,4 +1,4 @@
-<div class="col" *ngIf="forum">
+<div class="col">
   <div class="row pb-3 justify-content-center" *ngFor="let post of posts">
     <div
       class="col-sm-12 col-md-6 col-lg-4 border rounded pb-2 show-pointer"
@@ -33,6 +33,19 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <span class="text-muted">added by {{ post.userName }}, on</span>
+          <span
+            class="web-hover-light rounded pr-1"
+            (click)="$event.stopPropagation()"
+            routerLink="/forum/{{ post.forumId }}"
+          >
+            {{ post.forumName }}</span
+          >
+        </div>
+      </div>
+      <hr class="m-0" />
       <div class="row mt-2">
         <div class="col">
           <i
@@ -49,6 +62,11 @@
           ><span>{{ post.dislikes.length }}</span>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      <span class="text-muted">No more posts</span>
     </div>
   </div>
 </div>
