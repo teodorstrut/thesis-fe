@@ -13,7 +13,11 @@
             </div>
             <div class="col-auto col-auto web-hover-light rounded">
               <mat-form-field>
-                <mat-select tabindex="8" [(value)]="forumFilters.filterType">
+                <mat-select
+                  tabindex="8"
+                  (selectionChange)="changeForumsFilterType($event)"
+                  [(value)]="currentForumFilter"
+                >
                   <mat-option [value]="filterTypes.Subscribed"
                     >My subscriptions</mat-option
                   >

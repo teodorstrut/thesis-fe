@@ -1,6 +1,8 @@
-<app-header></app-header>
 <div class="content bg-web-bg">
   <div class="content-inside" (window:scroll)="getScrollPercent()">
+    <div class="sticky-header">
+      <app-header></app-header>
+    </div>
     <router-outlet></router-outlet>
   </div>
 </div>

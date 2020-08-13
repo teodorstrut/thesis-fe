@@ -10,7 +10,7 @@ import { Post } from '../models/post.model';
 export class NewComponent implements OnInit {
   posts: Post[] = [];
   pageIndex = 0;
-  pageSize = 50;
+  pageSize = 30;
   constructor(private postsService: PostsService) {}
 
   ngOnInit(): void {

@@ -8,7 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { HomeComponent } from './home/home.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCommonModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
@@ -36,6 +35,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ScrollSharedService } from './shared-services/scroll-shared.service';
 import { PopularComponent } from './popular/popular.component';
 import { NewComponent } from './new/new.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ResetPasswordConfirmationComponent } from './reset-password-confirmation/reset-password-confirmation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,6 @@ import { NewComponent } from './new/new.component';
     RegisterComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent,
     ForumsComponent,
     CreateForumComponent,
     ForumDetailsComponent,
@@ -58,6 +58,8 @@ import { NewComponent } from './new/new.component';
     TimeAgoPipe,
     PopularComponent,
     NewComponent,
+    ProfileComponent,
+    ResetPasswordConfirmationComponent,
   ],
   imports: [
     BrowserModule,

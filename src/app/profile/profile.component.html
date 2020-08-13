@@ -1,0 +1,166 @@
+<div class="col">
+  <div class="row justify-content-center">
+    <div
+      id="pagecontent"
+      class="col-10 m-5 card border-rounded p-3"
+      style="min-width: 360px;"
+    >
+      <div class="col">
+        <div class="row">
+          <div class="col-auto">
+            <span class="fs-16">
+              Your profile
+            </span>
+          </div>
+        </div>
+        <hr />
+        <div class="row justify-content-center">
+          <div class="col-auto" *ngIf="!fileUrl">
+            <div
+              class="border rounded-circle text-center"
+              style="
+                height: 180px;
+                width: 180px;
+                line-height: 180px;
+                border-width: 1ch;
+              "
+              [style.background]="colorCode"
+            >
+              <span [style.color]="textColor" style="font-size: 38px;">
+                {{ firstName.slice(0, 1).toUpperCase() }}
+                {{ lastName.slice(0, 1).toUpperCase() }}
+              </span>
+            </div>
+          </div>
+          <div class="col-auto text-center" *ngIf="fileUrl && isImage">
+            <img
+              [src]="fileUrl"
+              style="
+                height: 180px;
+                width: 180px;
+                line-height: 180px;
+                border-width: 1ch;
+                border-radius: 50%;
+              "
+            />
+          </div>
+        </div>
+        <div class="row justify-content-center pt-3">
+          <div class="col" style="max-width: 300px;">
+            <div class="row">
+              <div class="col-auto">
+                <input
+                  #file
+                  type="file"
+                  accept="image/*"
+                  (change)="sendToPreview(file)"
+                />
+              </div>
+            </div>
+            <div class="row pb-3">
+              <div class="col">
+                <span class="text-danger fs-14" *ngIf="error">{{ error }}</span>
+              </div>
+            </div>
+            <div class="row justify-content-center" *ngIf="showButtons">
+              <div class="col-auto">
+                <button
+                  class="btn btn-success"
+                  (click)="saveUserProfilePicture()"
+                >
+                  Save
+                </button>
+              </div>
+              <div class="col-auto">
+                <button
+                  class="btn btn-danger"
+                  (click)="cancelSaveUserProfilePicture()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-10">
+            <span class="fs-14 font-weight-bold">Change your password:</span>
+          </div>
+        </div>
+        <hr class="col-10" />
+        <div class="row justify-content-center pb-3">
+          <div class="col-10">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label float="never">Old Password</mat-label>
+              <input
+                matInput
+                type="password"
+                required
+                placeholder="New Password"
+                [formControl]="changePasswordForm.controls.oldPassword"
+              />
+              <mat-error
+                *ngIf="changePasswordForm.controls.oldPassword.invalid"
+                >{{
+                  getPasswordErrorMessage(
+                    changePasswordForm.controls.oldPassword
+                  )
+                }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-10">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label float="never">Password</mat-label>
+              <input
+                matInput
+                type="password"
+                required
+                placeholder="New Password"
+                [formControl]="changePasswordForm.controls.newPassword"
+              />
+              <mat-error
+                *ngIf="changePasswordForm.controls.newPassword.invalid"
+                >{{
+                  getPasswordErrorMessage(
+                    changePasswordForm.controls.newPassword
+                  )
+                }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-10">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label float="never">Re-enter your password</mat-label>
+              <input
+                matInput
+                type="password"
+                required
+                placeholder="YoUr@1PassWord"
+                [formControl]="changePasswordForm.controls.newRepeatPassword"
+              />
+              <mat-error
+                *ngIf="changePasswordForm.controls.newRepeatPassword.invalid"
+                >{{ checkRepeatPassword() }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-10 text-right">
+            <button
+              class="btn btn-primary"
+              (click)="sendPasswordChangeRequest()"
+            >
+              Change password
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

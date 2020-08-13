@@ -1,3 +1,4 @@
+import { ForumFilterTypes } from './../enums/forum-filter-types.enum';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ForumViewModel } from '../models/forum-view.model';
@@ -9,8 +10,16 @@ export class ForumsService {
   private apiUrl = 'http://localhost:8080/forums';
   constructor(private http: HttpClient) {}
 
-  public getAllForums() {
-    return this.http.get(this.apiUrl + '/all');
+  public getForums(filterType: string, pageIndex: number, pageSize: number) {
+    return this.http.get(
+      this.apiUrl +
+        '/filter/' +
+        filterType +
+        '/page-index/' +
+        pageIndex +
+        '/page-size/' +
+        pageSize
+    );
   }
 
   public createForum(forumViewModel: ForumViewModel) {

@@ -6,43 +6,59 @@
     ><span>Skip to main content</span></a
   >
   <div class="col-auto">
-    <div class="row">
+    <div class="row d-none d-md-flex">
       <div
         class="col-auto web-hover-dark show-pointer p-3"
-        routerLink="home"
         tabindex="2"
-      >
-        <span class="text-white font-weight-normal">Home</span>
-      </div>
-      <div
-        class="col-auto web-hover-dark show-pointer p-3"
-        tabindex="3"
         routerLink="popular"
+        (keydown.enter)="navigateToPage('popular')"
       >
         <span class="text-white font-weight-normal">Popular</span>
       </div>
       <div
         class="col-auto web-hover-dark show-pointer p-3"
-        tabindex="4"
+        tabindex="3"
         routerLink="new"
+        (keydown.enter)="navigateToPage('new')"
       >
         <span class="text-white font-weight-normal">New</span>
       </div>
       <div
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="forums"
-        tabindex="5"
+        tabindex="4"
+        (keydown.enter)="navigateToPage('forums')"
       >
         <span class="text-white font-weight-normal">Forums</span>
+      </div>
+    </div>
+    <div class="row d-flex d-md-none">
+      <div
+        class="col-auto web-hover-dark show-pointer p-3"
+        tabindex="1"
+        [ngbPopover]="navigationContent"
+        (keydown.enter)="openMenu()"
+        popoverClass="options-popover"
+        container="body"
+        placement="bottom-left"
+        #navigationPopover="ngbPopover"
+      >
+        <i class="fa fa-bars text-white" style="font-size: 20px;"></i>
       </div>
     </div>
   </div>
   <div class="col-auto">
     <div class="row justify-content-end align-items-center">
-      <div class="col-auto web-hover-dark show-pointer py-2">
+      <div
+        class="col-auto web-hover-dark show-pointer py-2"
+        tabindex="5"
+        [routerLink]="['/profile']"
+        (keydown.enter)="navigateToPage('/profile')"
+      >
         <div class="row align-items-center">
-          <div class="col-auto" *ngIf="userLoggedIn">
+          <div class="col-auto rounded-circle" *ngIf="userLoggedIn">
             <div
+              *ngIf="!image"
               class="border rounded-circle text-center"
               style="
                 height: 36px;
@@ -57,8 +73,20 @@
                 {{ lastName.slice(0, 1).toUpperCase() }}
               </span>
             </div>
+            <img
+              *ngIf="image"
+              [src]="image"
+              style="
+                height: 36px;
+                width: 36px;
+                line-height: 36px;
+                border-width: 1ch;
+                border-radius: 50%;
+              "
+              alt="profile image"
+            />
           </div>
-          <div class="col-auto pl-0">
+          <div class="col-auto d-none d-md-flex">
             <span class="fs-16 text-white">{{ firstName }} {{ lastName }}</span>
           </div>
         </div>
@@ -71,18 +99,73 @@
         *ngIf="!userLoggedIn"
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"
+        (keydown.enter)="navigateToPage('login')"
       >
         <span class="text-white font-weight-normal">Log In</span>
       </div>
       <div
-        tabindex="6"
+        tabindex="7"
         *ngIf="userLoggedIn"
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"
         (click)="eraseTokenData()"
+        (keydown.enter)="eraseTokenData()"
       >
         <span class="text-white font-weight-normal">Log Out</span>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #navigationContent>
+  <div class="col">
+    <div class="row align-items-center web-hover-light show-pointer py-2">
+      <div class="col-auto text-center">
+        <i
+          class="fa fa-level-up text-web-primary"
+          style="width: 16px !important; height: 16px !important;"
+        ></i>
+      </div>
+      <div
+        class="col text-center pl-1 pr-3"
+        tabindex="2"
+        routerLink="popular"
+        (keydown.enter)="navigateToPage('popular')"
+      >
+        <span class="text-black font-weight-normal">Popular</span>
+      </div>
+    </div>
+    <div class="row align-items-center web-hover-light show-pointer py-2">
+      <div class="col-auto text-center">
+        <i
+          class="fa fa-exclamation text-web-primary"
+          style="width: 16px !important; height: 16px !important;"
+        ></i>
+      </div>
+      <div
+        class="col text-center pl-1 pr-3"
+        tabindex="3"
+        routerLink="new"
+        (keydown.enter)="navigateToPage('new')"
+      >
+        <span class="text-black font-weight-normal">New</span>
+      </div>
+    </div>
+    <div class="row align-items-center web-hover-light show-pointer py-2">
+      <div class="col-auto text-center">
+        <i
+          class="fa fa-object-group text-web-primary"
+          style="width: 16px !important; height: 16px !important;"
+        ></i>
+      </div>
+      <div
+        class="col text-center pl-1 pr-3"
+        routerLink="forums"
+        tabindex="4"
+        (keydown.enter)="navigateToPage('forums')"
+      >
+        <span class="text-black font-weight-normal">Forums</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

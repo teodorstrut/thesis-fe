@@ -1,9 +1,10 @@
+import { ScrollSharedService } from './../shared-services/scroll-shared.service';
 import { Component, OnInit } from '@angular/core';
 import { ForumsService } from '../services/forums.service';
 import { ForumViewModel } from '../models/forum-view.model';
 import { ForumFilterTypes } from '../enums/forum-filter-types.enum';
-import { ForumFilters } from '../models/forum-filters.model';
 import { AuthorizationService } from '../services/authorization.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-forums',
@@ -11,20 +12,38 @@ import { AuthorizationService } from '../services/authorization.service';
   styleUrls: ['./forums.component.scss'],
 })
 export class ForumsComponent implements OnInit {
-  forumFilters: ForumFilters;
-  forums: ForumViewModel[];
+  forums: ForumViewModel[] = [];
   showCreateForum: boolean;
   filterTypes = ForumFilterTypes;
+  pageIndex = 0;
+  pageSize = 30;
+  currentForumFilter = ForumFilterTypes.Subscribed;
   constructor(
     private forumsService: ForumsService,
-    private authService: AuthorizationService
+    private authService: AuthorizationService,
+    private scrollSharedService: ScrollSharedService
   ) {}
 
   ngOnInit(): void {
-    this.forumsService.getAllForums().subscribe((data: any) => {
-      this.forums = data;
+    this.scrollSharedService.awaitScrollEvent().subscribe(() => {
+      this.getForums();
     });
-    this.forumFilters = new ForumFilters();
+    this.getForums();
+  }
+
+  private getForums() {
+    this.forumsService
+      .getForums(
+        ForumFilterTypes[this.currentForumFilter],
+        this.pageIndex,
+        this.pageSize
+      )
+      .subscribe((forums: any) => {
+        forums.forEach((forum) => {
+          this.forums.push(forum);
+        });
+        this.pageIndex++;
+      });
   }
 
   onShowCreateForum() {
@@ -71,5 +90,10 @@ export class ForumsComponent implements OnInit {
     } else {
       return text;
     }
+  }
+
+  changeForumsFilterType(event: MatSelectChange) {
+    this.pageIndex = 0;
+    this.getForums();
   }
 }

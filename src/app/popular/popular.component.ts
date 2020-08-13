@@ -10,7 +10,7 @@ import { PostsService } from '../services/posts.service';
 export class PopularComponent implements OnInit {
   posts: Post[] = [];
   pageIndex = 0;
-  pageSize = 50;
+  pageSize = 30;
   constructor(private postsService: PostsService) {}
 
   ngOnInit(): void {

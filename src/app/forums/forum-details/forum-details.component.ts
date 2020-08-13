@@ -28,7 +28,7 @@ export class ForumDetailsComponent implements OnInit {
   rows = 0;
   showMore = false;
   pageIndex = 0;
-  pageSize = 50;
+  pageSize = 30;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

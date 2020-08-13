@@ -1,22 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { AuthorizationService } from '../services/authorization.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private sharedService: SharedService, private router: Router) {}
+  constructor(
+    private sharedService: SharedService,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthorizationService,
+    private sanitizer: DomSanitizer
+  ) {}
+  @ViewChild('navigationPopover', { static: true })
+  navigationPopover: NgbPopover;
   firstName: string;
   lastName: string;
-  image;
+  image: string;
   userLoggedIn: boolean;
   colorCode: string;
   skipLinkPath: string;
   textColor: string;
   ngOnInit(): void {
+    this.userService.awaitProfilePictureChanged().subscribe((data) => {
+      this.getUserProfileImage();
+    });
     this.skipLinkPath = this.router.url + '#pagecontent';
 
     this.router.events.subscribe(() => {
@@ -24,29 +39,31 @@ export class HeaderComponent implements OnInit {
     });
     this.sharedService.awaitLogInTrigger().subscribe(() => {
       this.getTokenData();
+      this.getUserProfileImage();
     });
-    if (sessionStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       this.getTokenData();
+      this.getUserProfileImage();
     }
   }
 
   getTokenData() {
-    const tokenData = jwt_decode(sessionStorage.getItem('token'));
+    const tokenData = jwt_decode(localStorage.getItem('token'));
     this.firstName = tokenData.firstName;
     this.lastName = tokenData.lastName;
-    this.image = tokenData.image;
     this.colorCode = tokenData.colorCode;
     this.userLoggedIn = true;
     this.decideTextColor();
   }
 
   eraseTokenData() {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     this.firstName = null;
     this.lastName = null;
     this.image = null;
     this.colorCode = null;
     this.userLoggedIn = false;
+    this.router.navigate(['login']);
   }
 
   decideTextColor() {
@@ -68,5 +85,29 @@ export class HeaderComponent implements OnInit {
     return L > 0.179
       ? (this.textColor = '#000000')
       : (this.textColor = '#ffffff');
+  }
+
+  getUserProfileImage() {
+    this.userService
+      .getUserProfileImage(this.authService.getCurrentUserId())
+      .subscribe(
+        (data: string) =>
+          (this.image =
+            'data:image/png;base64,' +
+            (this.sanitizer.bypassSecurityTrustUrl(data) as any)
+              .changingThisBreaksApplicationSecurity)
+      );
+  }
+
+  navigateToPage(route: string) {
+    this.router.navigate([route]);
+  }
+
+  openMenu() {
+    if (!this.navigationPopover.isOpen()) {
+      this.navigationPopover.open();
+    } else {
+      this.navigationPopover.close();
+    }
   }
 }

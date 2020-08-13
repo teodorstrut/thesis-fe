@@ -1,5 +1,5 @@
 export enum ForumFilterTypes {
-  Subscribed,
-  Newest,
-  MostPopular,
+  'Subscribed' = 0,
+  'Newest' = 1,
+  'MostPopular' = 2,
 }
