@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Post } from 'src/app/models/post.model';
 import { PostsService } from 'src/app/services/posts.service';
@@ -12,7 +19,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './posts-list.component.html',
   styleUrls: ['./posts-list.component.scss'],
 })
-export class PostsListComponent implements OnInit {
+export class PostsListComponent implements OnInit, OnDestroy {
   @Input() posts: Post[];
   @Output() getMorePosts = new EventEmitter<any>();
 
@@ -29,6 +36,10 @@ export class PostsListComponent implements OnInit {
     this.scrollSubscription = this.scrollSharedService
       .awaitScrollEvent()
       .subscribe((_) => this.getMorePosts.emit());
+  }
+
+  ngOnDestroy() {
+    this.scrollSubscription.unsubscribe();
   }
 
   getFileContent(file: FileViewModel) {

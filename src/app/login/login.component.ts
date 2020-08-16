@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
           (data: string) => {
             this.authorizationService.setToken(data);
             this.sharedService.sendLogInTrigger();
-            this.router.navigate(['/home'], {
+            this.router.navigate(['/popular'], {
               relativeTo: this.activatedRoute,
             });
           },

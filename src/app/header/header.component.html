@@ -91,6 +91,19 @@
           </div>
         </div>
       </div>
+      <div
+        class="col-auto web-hover-dark show-pointer"
+        [ngbPopover]="notificationContent"
+        #notificationPopover="ngbPopover"
+        container="body"
+        autoClose="outside"
+      >
+        <i
+          class="fa fa-bell py-3"
+          [ngClass]="checkUnreadNotifications() ? 'text-white' : 'text-danger'"
+          style="font-size: 20px;"
+        ></i>
+      </div>
       <div class="col-auto">
         <div style="width: 1px; height: 40px; background-color: black;"></div>
       </div>
@@ -108,8 +121,8 @@
         *ngIf="userLoggedIn"
         class="col-auto web-hover-dark show-pointer p-3"
         routerLink="login"
-        (click)="eraseTokenData()"
-        (keydown.enter)="eraseTokenData()"
+        (click)="logout()"
+        (keydown.enter)="logout()"
       >
         <span class="text-white font-weight-normal">Log Out</span>
       </div>
@@ -119,52 +132,82 @@
 
 <ng-template #navigationContent>
   <div class="col">
-    <div class="row align-items-center web-hover-light show-pointer py-2">
+    <div
+      class="row align-items-center web-hover-light show-pointer py-2"
+      tabindex="2"
+      routerLink="popular"
+      (keydown.enter)="navigateToPage('popular')"
+    >
       <div class="col-auto text-center">
         <i
           class="fa fa-level-up text-web-primary"
           style="width: 16px !important; height: 16px !important;"
         ></i>
       </div>
-      <div
-        class="col text-center pl-1 pr-3"
-        tabindex="2"
-        routerLink="popular"
-        (keydown.enter)="navigateToPage('popular')"
-      >
+      <div class="col text-center pl-1 pr-3">
         <span class="text-black font-weight-normal">Popular</span>
       </div>
     </div>
-    <div class="row align-items-center web-hover-light show-pointer py-2">
+    <div
+      class="row align-items-center web-hover-light show-pointer py-2"
+      (keydown.enter)="navigateToPage('new')"
+      tabindex="3"
+      routerLink="new"
+    >
       <div class="col-auto text-center">
         <i
           class="fa fa-exclamation text-web-primary"
           style="width: 16px !important; height: 16px !important;"
         ></i>
       </div>
-      <div
-        class="col text-center pl-1 pr-3"
-        tabindex="3"
-        routerLink="new"
-        (keydown.enter)="navigateToPage('new')"
-      >
+      <div class="col text-center pl-1 pr-3">
         <span class="text-black font-weight-normal">New</span>
       </div>
     </div>
-    <div class="row align-items-center web-hover-light show-pointer py-2">
+    <div
+      class="row align-items-center web-hover-light show-pointer py-2"
+      (keydown.enter)="navigateToPage('forums')"
+      routerLink="forums"
+      tabindex="4"
+    >
       <div class="col-auto text-center">
         <i
           class="fa fa-object-group text-web-primary"
           style="width: 16px !important; height: 16px !important;"
         ></i>
       </div>
-      <div
-        class="col text-center pl-1 pr-3"
-        routerLink="forums"
-        tabindex="4"
-        (keydown.enter)="navigateToPage('forums')"
-      >
+      <div class="col text-center pl-1 pr-3">
         <span class="text-black font-weight-normal">Forums</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notificationContent>
+  <div class="col" style="max-height: 300px; overflow: auto; max-width: 250px;">
+    <div
+      class="row my-2 border rounded"
+      *ngFor="let notification of notifications"
+      [routerLink]="notification.navigationLink"
+      (click)="markNotificationAsSeen(notification)"
+    >
+      <div class="col">
+        <div class="row align-items-baseline">
+          <div class="col">
+            {{ notification.target }}
+          </div>
+          <div class="col-auto text-center" *ngIf="!notification.seen">
+            <div
+              class="bg-danger rounded-circle p-0"
+              style="width: 8px; height: 8px;"
+            ></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            {{ getNotificationText(notification.notificationType) }}
+          </div>
+        </div>
       </div>
     </div>
   </div>

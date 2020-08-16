@@ -1,3 +1,5 @@
+import { NotificationModel } from './../models/notification.model';
+import { NotificationType } from './../enums/notification-type.enum';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import jwt_decode from 'jwt-decode';
@@ -6,6 +8,7 @@ import { UserService } from '../services/user.service';
 import { AuthorizationService } from '../services/authorization.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../services/notification.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -17,10 +20,13 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private authService: AuthorizationService,
+    private notificationService: NotificationService,
     private sanitizer: DomSanitizer
   ) {}
   @ViewChild('navigationPopover', { static: true })
   navigationPopover: NgbPopover;
+  @ViewChild('notificationPopover', { static: true })
+  notificationPopover: NgbPopover;
   firstName: string;
   lastName: string;
   image: string;
@@ -28,18 +34,22 @@ export class HeaderComponent implements OnInit {
   colorCode: string;
   skipLinkPath: string;
   textColor: string;
+  notifications: NotificationModel[];
+  notificationTypes = NotificationType;
+  newNotifications = false;
   ngOnInit(): void {
+    this.getNotifications();
     this.userService.awaitProfilePictureChanged().subscribe((data) => {
       this.getUserProfileImage();
     });
     this.skipLinkPath = this.router.url + '#pagecontent';
-
     this.router.events.subscribe(() => {
       this.skipLinkPath = this.router.url + '#pagecontent';
     });
     this.sharedService.awaitLogInTrigger().subscribe(() => {
       this.getTokenData();
       this.getUserProfileImage();
+      this.getNotifications();
     });
     if (localStorage.getItem('token')) {
       this.getTokenData();
@@ -54,6 +64,12 @@ export class HeaderComponent implements OnInit {
     this.colorCode = tokenData.colorCode;
     this.userLoggedIn = true;
     this.decideTextColor();
+  }
+
+  logout() {
+    this.authService.logout().subscribe((data) => {
+      this.eraseTokenData();
+    });
   }
 
   eraseTokenData() {
@@ -109,5 +125,51 @@ export class HeaderComponent implements OnInit {
     } else {
       this.navigationPopover.close();
     }
+  }
+
+  getNotifications() {
+    this.notificationService
+      .getNotifications()
+      .subscribe((data: NotificationModel[]) => {
+        this.notifications = data;
+        data.forEach((n) => {
+          if (!n.seen) {
+            this.newNotifications = true;
+          }
+        });
+      });
+  }
+
+  getNotificationText(notificationType: string) {
+    console.log(NotificationType[notificationType]);
+    console.log(notificationType);
+    switch (NotificationType[notificationType]) {
+      case NotificationType.NewCommentOnOwnedPost:
+        return 'there is a new comment on one of your posts';
+      case NotificationType.NewCommentOnOwnedComment:
+        return 'has replied to your comment';
+
+      case NotificationType.NewPostOnFollowedForum:
+        return 'there is a new post on a forum you are following';
+    }
+  }
+
+  markNotificationAsSeen(notification: NotificationModel) {
+    this.notificationService
+      .markNotificationAsSeen(notification.id)
+      .subscribe((data) => {
+        notification.seen = true;
+        this.notificationPopover.close();
+      });
+  }
+
+  checkUnreadNotifications() {
+    let noMoreUnreadNotifications = true;
+    this.notifications.forEach((notification) => {
+      if (!notification.seen) {
+        noMoreUnreadNotifications = false;
+      }
+    });
+    return noMoreUnreadNotifications;
   }
 }

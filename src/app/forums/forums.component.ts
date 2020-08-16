@@ -1,23 +1,25 @@
 import { ScrollSharedService } from './../shared-services/scroll-shared.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ForumsService } from '../services/forums.service';
 import { ForumViewModel } from '../models/forum-view.model';
 import { ForumFilterTypes } from '../enums/forum-filter-types.enum';
 import { AuthorizationService } from '../services/authorization.service';
 import { MatSelectChange } from '@angular/material/select';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-forums',
   templateUrl: './forums.component.html',
   styleUrls: ['./forums.component.scss'],
 })
-export class ForumsComponent implements OnInit {
+export class ForumsComponent implements OnInit, OnDestroy {
   forums: ForumViewModel[] = [];
   showCreateForum: boolean;
   filterTypes = ForumFilterTypes;
   pageIndex = 0;
   pageSize = 30;
   currentForumFilter = ForumFilterTypes.Subscribed;
+  scrollSubscription: Subscription;
   constructor(
     private forumsService: ForumsService,
     private authService: AuthorizationService,
@@ -25,10 +27,16 @@ export class ForumsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.scrollSharedService.awaitScrollEvent().subscribe(() => {
-      this.getForums();
-    });
+    this.scrollSubscription = this.scrollSharedService
+      .awaitScrollEvent()
+      .subscribe(() => {
+        this.getForums();
+      });
     this.getForums();
+  }
+
+  ngOnDestroy(): void {
+    this.scrollSubscription.unsubscribe();
   }
 
   private getForums() {
@@ -94,6 +102,7 @@ export class ForumsComponent implements OnInit {
 
   changeForumsFilterType(event: MatSelectChange) {
     this.pageIndex = 0;
+    this.forums = [];
     this.getForums();
   }
 }

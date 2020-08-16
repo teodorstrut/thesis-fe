@@ -85,4 +85,8 @@ export class AuthorizationService {
       responseType: 'text',
     });
   }
+
+  public logout() {
+    return this.http.get(this.apiUrl + '/logout');
+  }
 }
